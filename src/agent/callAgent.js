@@ -22,7 +22,7 @@ async function request(input, key) {
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ model: 'gpt-5.6', instructions: systemContext, input }),
+    body: JSON.stringify({ model: 'gpt-5.6-luna', reasoning: { effort: 'low' }, instructions: systemContext, input }),
   })
   if (!response.ok) throw new Error(`OpenAI request failed (${response.status}).`)
   return outputText(await response.json())

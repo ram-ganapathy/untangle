@@ -41,7 +41,7 @@ The agent NEVER chats. Its output is JSON mutations to the map. See `.codex/skil
 ✅ Verify: dictate a sentence on Android Chrome; text lands in the entry.
 
 ### M3 — Agent harness
-- Use a browser fetch agent harness against the OpenAI Responses API (gpt-5.6)
+- Use a browser fetch agent harness against the OpenAI Responses API (gpt-5.6-luna, low reasoning effort)
 - Read the API key from VITE_OPENAI_API_KEY or localStorage key untangle.apiKey; no key uses demo fallback
 - One `callAgent(operation, payload)` module; system context = the three files in `agent/`
 - Operations: diagnose, decompose, diff, pattern_scan (schemas in `agent/output-schemas.md`)
