@@ -4,11 +4,6 @@ import NewSpiral from './screens/NewSpiral'
 import SpiralView from './screens/SpiralView'
 import { db } from './db/db'
 
-const routes = {
-  '#/new': NewSpiral,
-  '#/spiral': SpiralView,
-}
-
 export default function App() {
   const [path, setPath] = useState(window.location.hash || '#/')
 
@@ -19,10 +14,10 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    // Open on startup so the Untangle tables exist before any spiral is created.
     db.open().catch((error) => console.error('Unable to open Untangle storage.', error))
   }, [])
 
-  const Screen = routes[path] || Home
-  return <Screen />
+  if (path === '#/new') return <NewSpiral />
+  if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
+  return <Home />
 }

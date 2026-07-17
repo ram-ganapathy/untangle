@@ -20,5 +20,13 @@ textarea { display: block; width: 100%; min-height: 150px; resize: vertical; bor
 textarea::placeholder { color: #5b6478; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .actions .button { margin-top: 14px; }
+.mic { width: 44px; height: 44px; margin-top: 14px; border: 1px solid #2b3348; border-radius: 50%; background: transparent; color: #a9b0c2; cursor: pointer; }
+.mic.listening { border-color: #8fb6d9; color: #8fb6d9; animation: mic-pulse 1.6s ease-in-out infinite; }
+.interim, .form-error { margin: 8px 0 0; color: #8b93a7; font-size: 14px; font-style: italic; }
+.form-error { color: #d8a25e; font-style: normal; }
+.listening-copy { margin-top: 18px; }
+.entry-preview { margin: 24px 0 0; padding: 16px; border-left: 3px solid #8fb6d9; background: #171d2c; color: #c6cbd9; line-height: 1.6; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+@keyframes mic-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(143, 182, 217, .28); } 50% { box-shadow: 0 0 0 10px rgba(143, 182, 217, 0); } }
 .chip { display: inline-block; margin-bottom: 16px; border: 1px solid #2b3348; border-radius: 999px; padding: 6px 14px; color: #a9b0c2; font-size: 11px; letter-spacing: .08em; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

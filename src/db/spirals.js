@@ -8,6 +8,24 @@ export async function createSpiral({ title, diagnosis, state = 'open' }) {
   return spiral
 }
 
+export async function createSpiralWithEntry({ spiral: spiralValues, entry: entryValues }) {
+  const createdAt = now()
+  const spiral = {
+    id: createId(),
+    ...spiralValues,
+    state: spiralValues.state ?? 'open',
+    createdAt,
+    updatedAt: createdAt,
+  }
+  const entry = { id: createId(), ...entryValues, spiralId: spiral.id, createdAt }
+
+  await db.transaction('rw', db.spirals, db.entries, async () => {
+    await db.spirals.add(spiral)
+    await db.entries.add(entry)
+  })
+  return { spiral, entry }
+}
+
 export function getSpiral(id) {
   return db.spirals.get(id)
 }
