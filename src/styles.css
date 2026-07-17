@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+:root { color: #e8e6df; background: #10141f; font-family: Inter, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, textarea { font: inherit; }
+.page { min-height: 100vh; padding: 40px 20px 80px; background: radial-gradient(1200px 700px at 50% -10%, #1b2233, #10141f 55%, #0c0f18); }
+.shell { margin: 0 auto; max-width: 620px; }
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand a { color: #e8e6df; font: 600 22px Fraunces, serif; text-decoration: none; }
+.brand span, .subtle { color: #8b93a7; font-size: 14px; line-height: 1.55; }
+.home-hero, .form-stage, .map-stage { margin-top: 88px; }
+h1 { max-width: 530px; margin: 0 0 10px; color: #f0ede4; font: 500 clamp(28px, 6vw, 40px)/1.18 Fraunces, serif; }
+.eyebrow { margin: 0 0 16px; color: #8fb6d9; font-size: 11px; font-weight: 600; letter-spacing: .12em; }
+.button { display: inline-block; margin-top: 18px; border: 1px solid transparent; border-radius: 999px; padding: 11px 20px; color: inherit; cursor: pointer; font-size: 14px; font-weight: 600; text-decoration: none; }
+.primary { background: #8fb6d9; color: #0e1420; }
+.ghost { border-color: #3d4763; background: transparent; color: #c6cbd9; }
+.input-surface { margin-top: 28px; padding: 16px; border: 1px solid #262e42; border-radius: 16px; background: #171d2c; }
+textarea { display: block; width: 100%; min-height: 150px; resize: vertical; border: 0; outline: 0; background: transparent; color: #e8e6df; line-height: 1.6; }
+textarea::placeholder { color: #5b6478; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions .button { margin-top: 14px; }
+.chip { display: inline-block; margin-bottom: 16px; border: 1px solid #2b3348; border-radius: 999px; padding: 6px 14px; color: #a9b0c2; font-size: 11px; letter-spacing: .08em; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
