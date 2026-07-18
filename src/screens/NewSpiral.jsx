@@ -84,9 +84,10 @@ export default function NewSpiral({ spiralId }) {
 
   const returning = Boolean(spiralId)
   return (
-    <main className="page shell">
-      <header className="brand"><a href="#/">Untangle</a><span>{returning ? 'add to spiral' : 'new spiral'}</span></header>
-      <section className="form-stage">
+    <main className="page">
+      <div className="shell">
+        <header className="brand"><a href="#/">Untangle</a><span>{returning ? 'add to spiral' : 'new spiral'}</span></header>
+        <section className="form-stage">
         <h1>{returning ? 'What returned to the loop?' : 'What’s looping tonight?'}</h1>
         <p className="subtle">Say it or type it, exactly as messy as it is in your head.</p>
         <div className="input-surface">
@@ -100,7 +101,8 @@ export default function NewSpiral({ spiralId }) {
         </div>
         {speech.isListening && <p className="subtle listening-copy">Listening — tell it like it replays.</p>}
         {error && <p className="form-error">{error}</p>}
-      </section>
+        </section>
+      </div>
     </main>
   )
 }

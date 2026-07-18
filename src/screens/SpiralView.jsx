@@ -28,10 +28,10 @@ export default function SpiralView({ spiralId }) {
   }, [spiralId])
 
   if (isLoading) {
-    return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><p className="subtle">Finding your spiral…</p></section></main>
+    return <main className="page"><div className="shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><p className="subtle">Finding your spiral…</p></section></div></main>
   }
 
-  if (!spiral) return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><h1>This spiral isn’t here.</h1><p className="subtle">It may have been removed, or this link is incomplete.</p><a className="button primary" href="#/">Back to your library</a></section></main>
+  if (!spiral) return <main className="page"><div className="shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><h1>This spiral isn’t here.</h1><p className="subtle">It may have been removed, or this link is incomplete.</p><a className="button primary" href="#/">Back to your library</a></section></div></main>
 
   if (spiral.safety) return <CareScreen />
 
@@ -57,9 +57,10 @@ export default function SpiralView({ spiralId }) {
   }
 
   return (
-    <main className="page shell">
-      <header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header>
-      <section className="map-stage">
+    <main className="page">
+      <div className="shell">
+        <header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header>
+        <section className="map-stage">
         <span className="chip">{spiral.diagnosis ? `DIAGNOSIS · ${spiral.diagnosis.toUpperCase()}` : 'WAITING TO UNTANGLE'}</span>
         <h1>{spiral.title}</h1>
         <p className="subtle">Your thought is held here. Its map is ready to be made.</p>
@@ -67,7 +68,8 @@ export default function SpiralView({ spiralId }) {
         <button className="button primary" type="button" onClick={untangle} disabled={!entries.length || isUntangling}>{isUntangling ? 'Untangling…' : 'Untangle it'}</button>
         <a className="button ghost" href={`#/new/${spiral.id}`}>Pour in another</a>
         {error && <p className="form-error">{error}</p>}
-      </section>
+        </section>
+      </div>
     </main>
   )
 }

@@ -20,13 +20,15 @@ export default function AgentTest() {
   }
 
   return (
-    <main className="page shell">
-      <header className="brand"><a href="#/">Untangle</a><span>agent test</span></header>
-      <section className="form-stage">
+    <main className="page">
+      <div className="shell">
+        <header className="brand"><a href="#/">Untangle</a><span>agent test</span></header>
+        <section className="form-stage">
         <h1>Test the map engine.</h1>
         <div className="input-surface"><textarea value={text} onChange={(event) => setText(event.target.value)} placeholder="Paste a thought-dump…" /><div className="actions"><button className="button primary" type="button" onClick={run} disabled={!text.trim() || isRunning}>{isRunning ? 'Mapping…' : 'Run agent test'}</button></div></div>
         <p className="subtle">Valid diagnosis and fragment JSON are logged to the browser console.</p>
-      </section>
+        </section>
+      </div>
     </main>
   )
 }
