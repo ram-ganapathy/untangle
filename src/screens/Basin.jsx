@@ -205,11 +205,11 @@ export default function Basin({ spiral }) {
                   </section>
                   {spiral.closingText && <section className="closing-card"><p>{spiral.closingType === 'anchor' ? 'WHAT IS YOURS TO DO' : 'WORTH KEEPING FROM THIS'}</p><strong>{spiral.closingText}</strong></section>}
                   <p className="basin-calm">The record stays. The mist was never yours to carry.</p>
-                  <a className="button ghost basin-new" href={`#/new/${spiral.id}`}>Pour in another</a>
                 </>
               )}
             </>
           )}
+          <a className="button ghost basin-new" href={`#/new/${spiral.id}`}>Pour in another</a>
         </section>
       </div>
     </main>

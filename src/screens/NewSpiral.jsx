@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { callAgent } from '../agent/callAgent'
 import { analyzeAndPersistSpiral, agentFragments } from '../agent/persistAnalysis'
 import { createEntry, listEntries } from '../db/entries'
 import { createFragments, listFragments, returnFragment, updateFragment } from '../db/fragments'
-import { createSpiralWithEntry, getSpiral, updateSpiral } from '../db/spirals'
+import { createSpiralWithEntry, getSpiral, listSpirals, updateSpiral } from '../db/spirals'
 import { exampleEntry, exampleSpiral } from '../demo/demoData'
 import { useSpeech } from '../stt/useSpeech'
 
@@ -12,11 +12,20 @@ export default function NewSpiral({ spiralId }) {
   const [source, setSource] = useState('text')
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
+  const [hasOpenSpirals, setHasOpenSpirals] = useState(false)
   const saveInProgress = useRef(false)
   const speech = useSpeech((transcript) => {
     setText((current) => `${current}${current ? ' ' : ''}${transcript}`)
     setSource('voice')
   })
+
+  useEffect(() => {
+    if (spiralId) return undefined
+    listSpirals()
+      .then((spirals) => setHasOpenSpirals(spirals.some((spiral) => spiral.state === 'open')))
+      .catch((error) => console.error('Unable to check existing spirals.', error))
+    return undefined
+  }, [spiralId])
 
   async function saveNewSpiral(spiralValues, entryValues) {
     const { spiral, entry } = await createSpiralWithEntry({ spiral: spiralValues, entry: entryValues })
@@ -108,6 +117,7 @@ export default function NewSpiral({ spiralId }) {
             {!returning && <button className="button ghost" type="button" onClick={showExample} disabled={isSaving}>Show me an example</button>}
           </div>
         </div>
+        {!returning && hasOpenSpirals && <p className="subtle">Returning to a loop you&apos;ve already mapped? <a href="#/">Open it from your library and pour in another there.</a></p>}
         {speech.isListening && <p className="subtle listening-copy">Listening — tell it like it replays.</p>}
         {error && <p className="form-error">{error}</p>}
         </section>
