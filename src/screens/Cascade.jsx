@@ -10,7 +10,7 @@ function temperature(index, total) {
   return `hsl(${18 + progress * 192} ${62 - progress * 24}% ${63 - progress * 6}%)`
 }
 
-export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
+export default function Cascade({ spiral }) {
   const [nodes, setNodes] = useState([])
   const [expanded, setExpanded] = useState(null)
   const [isReleasing, setIsReleasing] = useState(false)
@@ -59,7 +59,6 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
         <header className="brand"><a href="#/">Untangle</a><span>see the spiral from outside</span></header>
         <section className="cascade-stage">
           <span className="chip cascade-chip">DIAGNOSIS · {spiral.diagnosis?.toUpperCase()}</span>
-          {showDedicatedScreenNote && <span className="coming-label">DEDICATED SCREEN COMING</span>}
           <h1>{spiral.title}</h1>
           {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
           {spiral.demoEngine && <a className="demo-engine-chip" href="#/connect">demo example — connect the engine to map your own words</a>}

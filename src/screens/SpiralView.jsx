@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Basin from './Basin'
 import Cascade from './Cascade'
 import Groove from './Groove'
+import Scales from './Scales'
 import CareScreen from './CareScreen'
 import { analyzeAndPersistSpiral } from '../agent/persistAnalysis'
 import { listEntries } from '../db/entries'
@@ -39,9 +40,8 @@ export default function SpiralView({ spiralId }) {
 
   if (spiral.diagnosis === 'replay') return <Basin spiral={spiral} />
   if (spiral.diagnosis === 'rumination') return <Groove spiral={spiral} />
-  if (['projection', 'deliberation'].includes(spiral.diagnosis)) {
-    return <Cascade spiral={spiral} showDedicatedScreenNote={spiral.diagnosis !== 'projection'} />
-  }
+  if (spiral.diagnosis === 'deliberation') return <Scales spiral={spiral} />
+  if (spiral.diagnosis === 'projection') return <Cascade spiral={spiral} />
 
   async function untangle() {
     if (isUntangling) return

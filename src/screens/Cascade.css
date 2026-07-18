@@ -1,7 +1,6 @@
 .cascade-page { padding-top: 40px; }
 .cascade-stage { margin-top: 44px; }
 .cascade-chip { color: #e8926b; }
-.coming-label { display: inline-block; margin: 0 0 14px 8px; color: #8b93a7; font: 10px 'JetBrains Mono', monospace; letter-spacing: .08em; }
 .cascade-list { margin-top: 26px; }
 .cascade-node { position: relative; }
 .cascade-card { position: relative; border: 1px solid #262e42; border-left: 3px solid var(--node-color); border-radius: 14px; padding: 16px 18px; background: #171d2c; cursor: pointer; animation: cascade-drop .5s ease both; transition: border-color .2s; }
