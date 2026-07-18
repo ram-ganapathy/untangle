@@ -1,6 +1,7 @@
 import { createFragments } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import { callAgent } from './callAgent'
+import { demoAgentFallback } from '../demo/agentFallbacks'
 
 export function agentFragments(result, spiralId, entryId) {
   const items = result.fragments ?? result.nodes ?? result.new_fragments ?? []
@@ -31,16 +32,21 @@ export async function analyzeAndPersistSpiral(spiral, entries) {
     return { ...diagnosisResult, spiral: updatedSpiral }
   }
   const diagnosis = diagnosisResult.diagnosis ?? 'replay'
-  const decomposition = await callAgent('decompose', { rawText, diagnosis })
+  let decomposition = await callAgent('decompose', { rawText, diagnosis })
   if (decomposition.safety) {
     const updatedSpiral = await updateSpiral(spiral.id, { safety: true, diagnosis: null })
     return { ...decomposition, spiral: updatedSpiral }
+  }
+  const decompositionFailed = Boolean(decomposition.error)
+  if (decompositionFailed) {
+    console.error('Untangle decomposition returned an error; using demo fallback.', decomposition.error)
+    decomposition = demoAgentFallback('decompose', { rawText, diagnosis })
   }
   const updatedSpiral = await updateSpiral(spiral.id, {
     diagnosis,
     title: diagnosisResult.headline || spiral.title,
     state: 'open',
-    engineFallback: Boolean(diagnosisResult.__untangleFallback || decomposition.__untangleFallback),
+    engineFallback: Boolean(diagnosisResult.__untangleFallback || decomposition.__untangleFallback || decompositionFailed),
     demoEngine: Boolean(diagnosisResult.__untangleDemo || decomposition.__untangleDemo),
     ...closingCard(decomposition),
   })

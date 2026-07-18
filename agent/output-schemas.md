@@ -51,6 +51,46 @@ Right: `{ "text": "Your VP's silence means he is unimpressed", "layer": "added",
 ```
 Rules: 4–6 nodes; probabilities strictly decrease; final node very small.
 
+## Operation: decompose (rumination)
+```json
+{
+  "headline": "…",
+  "fragments": [
+    { "id": "r1", "text": "You keep asking why you always ruin friendships", "layer": "added",
+      "pattern": "global label", "note": "A painful question is not proof of a permanent trait." },
+    { "id": "r2", "text": "You did not reply to their message last Tuesday", "layer": "happened",
+      "pattern": null, "note": "This is the part of the story that can be checked." }
+  ],
+  "keep": { "text": "Ask what repair is possible in this friendship today." }
+}
+```
+Rules: 4–8 replay-style fragments. Counterfactual rewrites are `layer: "added"` with a fitting
+`pattern` (`interpretation`, `global label`, or `fortune-telling`); observables are `layer: "happened"`.
+`keep` is the ONE lesson worth extracting and is at most 16 words.
+
+Wrong: `{ "text": "You are being too hard on yourself", "layer": "added" }`
+
+Right: `{ "text": "You should have known they needed space", "layer": "added", "pattern": "fortune-telling", "note": "You can wish for a different past without proving you could predict it." }`
+
+## Operation: decompose (deliberation)
+```json
+{
+  "headline": "…",
+  "nodes": [
+    { "id": "d1", "kind": "trigger", "probability": 100, "text": "You are deciding between the safer offer and the learning role", "evidence": "Both offers are real options today." },
+    { "id": "d2", "kind": "fear", "probability": 52, "text": "The lower-paid role could make money feel tight", "pattern": "fortune-telling", "evidence": "The pay difference is known; the exact strain still needs a budget." },
+    { "id": "d3", "kind": "fear", "probability": 34, "text": "The safer offer could leave you feeling under-challenged", "pattern": "fortune-telling", "evidence": "That outcome depends on the actual work, not the title alone." }
+  ],
+  "anchor": { "text": "Ask each manager about the first ninety days today." }
+}
+```
+Rules: the decision itself is one `trigger` at probability 100. Each option's feared downside is a
+`fear` with a probability and evidence. `anchor` is the smallest information-gathering step for today.
+
+Wrong: `{ "text": "There is no wrong choice", "kind": "fear" }`
+
+Right: `{ "text": "Choosing the learning role could leave you short on rent", "kind": "fear", "probability": 45, "evidence": "The salary gap is real; your monthly budget can test its impact." }`
+
 ## Operation: diff (new entry on an existing spiral)
 Input: existing fragments (with statuses) + new dump text.
 ```json
