@@ -58,6 +58,10 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .vial-deliberation .vial-content i:nth-child(1) { color: #b8dcc8; background: #b8dcc8; animation: vial-orbit-one 5.6s linear infinite; }
 .vial-deliberation .vial-content i:nth-child(2) { color: #d5c5ef; background: #d5c5ef; animation: vial-orbit-two 5.6s linear infinite; }
 .vial-deliberation .vial-content i:nth-child(3) { display: none; }
+.vial-care .vial-glass { border-color: rgba(224, 191, 135, .55); background: linear-gradient(105deg, rgba(255, 236, 204, .16), rgba(129, 100, 73, .09) 45%, rgba(248, 215, 163, .14)); box-shadow: inset 5px 0 8px rgba(255, 239, 215, .12), inset -7px -8px 15px rgba(62, 42, 34, .18), 0 0 20px rgba(221, 170, 95, .17); }
+.vial-care .vial-content { background: radial-gradient(ellipse at 50% 54%, rgba(255, 228, 172, .78), rgba(211, 161, 90, .28) 42%, transparent 72%); filter: blur(1px); }
+.vial-care .vial-content::before { position: absolute; top: 8px; left: 9px; width: 28px; height: 39px; border-radius: 50%; content: ''; background: radial-gradient(ellipse, rgba(255, 244, 216, .42), transparent 68%); filter: blur(4px); }
+.vial-care .vial-content i { display: none; }
 .vial-settled .vial-glass { border-color: rgba(183, 223, 207, .46); box-shadow: inset 5px 0 8px rgba(231, 244, 249, .1), 0 0 19px rgba(128, 204, 171, .13); }
 .vial-settled .vial-content { opacity: .2; animation: none; }
 .vial-settled .vial-content i { animation: none; }
