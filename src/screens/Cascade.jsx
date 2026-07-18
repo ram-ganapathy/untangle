@@ -16,7 +16,11 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
 
   useEffect(() => {
     listFragments(spiral.id)
-      .then((fragments) => setNodes(fragments.filter((fragment) => fragment.kind)))
+      .then((fragments) => setNodes(
+        fragments
+          .filter((fragment) => fragment.kind)
+          .sort((left, right) => (right.probability ?? 0) - (left.probability ?? 0)),
+      ))
       .catch((error) => console.error('Unable to load cascade fragments.', error))
   }, [spiral.id])
 
