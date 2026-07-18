@@ -1,0 +1,28 @@
+.sky-page { position: relative; min-height: 100vh; overflow: hidden; background: radial-gradient(ellipse at 50% 44%, rgba(29, 47, 75, .35), transparent 45%), linear-gradient(to bottom, rgba(10, 14, 25, .22), #070a12 86%), url('/untangle-galaxy.webp') center / cover no-repeat; }
+.sky-page::before, .sky-page::after { position: absolute; z-index: 0; width: 1px; height: 1px; content: ''; border-radius: 50%; background: rgba(207, 224, 243, .72); pointer-events: none; animation: sky-background-breathe 10s ease-in-out infinite; box-shadow: 4vw 12vh rgba(207, 224, 243, .55), 11vw 51vh rgba(183, 207, 235, .5), 17vw 23vh rgba(255, 244, 211, .55), 23vw 78vh rgba(207, 224, 243, .48), 30vw 9vh rgba(183, 207, 235, .52), 37vw 43vh rgba(255, 244, 211, .45), 44vw 65vh rgba(207, 224, 243, .58), 51vw 18vh rgba(183, 207, 235, .48), 58vw 88vh rgba(255, 244, 211, .42), 65vw 39vh rgba(207, 224, 243, .52), 71vw 14vh rgba(183, 207, 235, .5), 78vw 72vh rgba(255, 244, 211, .46), 85vw 33vh rgba(207, 224, 243, .55), 93vw 58vh rgba(183, 207, 235, .5), 97vw 19vh rgba(255, 244, 211, .42); }
+.sky-page::before { top: 0; left: 0; }
+.sky-page::after { top: 30px; left: -14px; animation-delay: -5s; animation-duration: 14s; box-shadow: 7vw 31vh rgba(193, 215, 238, .46), 14vw 83vh rgba(255, 244, 211, .43), 21vw 6vh rgba(193, 215, 238, .5), 28vw 57vh rgba(255, 244, 211, .4), 36vw 27vh rgba(193, 215, 238, .5), 43vw 92vh rgba(255, 244, 211, .4), 49vw 48vh rgba(193, 215, 238, .46), 56vw 8vh rgba(255, 244, 211, .45), 63vw 61vh rgba(193, 215, 238, .5), 70vw 91vh rgba(255, 244, 211, .4), 77vw 45vh rgba(193, 215, 238, .48), 84vw 4vh rgba(255, 244, 211, .4), 91vw 76vh rgba(193, 215, 238, .47); }
+.sky-brand { position: absolute; z-index: 3; top: 28px; left: 28px; }
+.sky-brand a { color: rgba(239, 239, 233, .88); font: 600 22px Fraunces, serif; text-decoration: none; }
+.sky-copy { position: absolute; z-index: 3; top: 50%; left: 50%; width: min(80vw, 340px); margin: 0; color: rgba(223, 231, 241, .82); font: 500 clamp(17px, 3vw, 22px)/1.45 Fraunces, serif; text-align: center; transform: translate(-50%, -50%); pointer-events: none; animation: sky-copy-fade 7s ease forwards; }
+.sky-field { position: absolute; z-index: 1; inset: 0; }
+.sky-star { position: absolute; top: var(--y); left: var(--x); width: 18px; height: 18px; border: 0; padding: 0; background: transparent; cursor: pointer; transform: translate(-50%, -50%); }
+.sky-star i { position: absolute; top: 50%; left: 50%; display: block; width: 4px; height: 4px; border-radius: 50%; background: #e3eff7; box-shadow: 0 0 7px rgba(194, 225, 247, .92), 0 0 18px rgba(128, 191, 233, .34); transform: translate(-50%, -50%); }
+.sky-star:hover i { width: 6px; height: 6px; }
+.sky-swirling { animation: sky-drift var(--duration) ease-in-out var(--delay) infinite; }
+.sky-swirling i { animation: sky-flicker 3.8s ease-in-out var(--delay) infinite; }
+.sky-settled i { background: #bdd8d0; box-shadow: 0 0 7px rgba(171, 217, 201, .76), 0 0 14px rgba(126, 192, 169, .22); }
+.sky-kept i { width: 5px; height: 5px; background: #f0d596; box-shadow: 0 0 8px rgba(245, 210, 132, .92), 0 0 18px rgba(231, 179, 81, .32); }
+.sky-released { cursor: default; opacity: .34; }
+.sky-released i { width: 2px; height: 2px; background: #768095; box-shadow: 0 0 8px rgba(106, 126, 153, .28); }
+.sky-returned i { animation: sky-return-pulse 7s ease-in-out var(--delay) infinite; }
+.sky-swirling.sky-returned i { animation: sky-flicker 3.8s ease-in-out var(--delay) infinite, sky-return-pulse 7s ease-in-out var(--delay) infinite; }
+.sky-whisper { position: fixed; z-index: 4; right: 24px; bottom: 28px; left: 24px; max-width: 540px; margin: 0 auto; color: #e6edf0; font: 500 18px/1.45 Fraunces, serif; text-align: center; text-decoration: none; animation: sky-whisper-fade 4.6s ease forwards; }
+@keyframes sky-background-breathe { 0%, 100% { opacity: .22; } 50% { opacity: .48; } }
+@keyframes sky-drift { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(calc(-50% + 3px), calc(-50% - 2px)); } }
+@keyframes sky-flicker { 0%, 100% { opacity: .68; transform: translate(-50%, -50%) scale(.82); } 45% { opacity: 1; transform: translate(-50%, -50%) scale(1.22); } 58% { opacity: .77; transform: translate(-50%, -50%) scale(.94); } }
+@keyframes sky-return-pulse { 0%, 100% { box-shadow: 0 0 7px rgba(194, 225, 247, .82), 0 0 16px rgba(128, 191, 233, .28); } 50% { box-shadow: 0 0 11px rgba(210, 236, 254, 1), 0 0 25px rgba(136, 198, 241, .55); } }
+@keyframes sky-copy-fade { 0%, 60% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes sky-whisper-fade { 0%, 12% { opacity: 0; transform: translateY(5px); } 24%, 76% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .sky-page::before, .sky-page::after, .sky-copy, .sky-swirling, .sky-swirling i, .sky-returned i, .sky-swirling.sky-returned i, .sky-whisper { animation: none !important; } .sky-copy { opacity: .72; } }
+@media (max-width: 540px) { .sky-brand { top: 22px; left: 20px; } .sky-whisper { bottom: 22px; font-size: 16px; } }

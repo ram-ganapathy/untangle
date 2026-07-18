@@ -4,6 +4,7 @@ import AgentTest from './screens/AgentTest'
 import CareScreen from './screens/CareScreen'
 import NewSpiral from './screens/NewSpiral'
 import SpiralView from './screens/SpiralView'
+import Sky from './screens/Sky'
 import { db } from './db/db'
 import { hasPasscode } from './privacy/passcode'
 import UnlockScreen from './screens/UnlockScreen'
@@ -27,6 +28,7 @@ export default function App() {
   if (path === '#/new') return <NewSpiral />
   if (path.startsWith('#/new/')) return <NewSpiral spiralId={path.slice('#/new/'.length)} />
   if (path === '#/agent-test') return <AgentTest />
+  if (path === '#/sky') return <Sky />
   if (path.startsWith('#/care/')) return <CareScreen />
   if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
   return <Home hasLocalPasscode={hasLocalPasscode} onPasscodeSet={() => { setHasLocalPasscode(true); setIsLocked(true) }} onPasscodeRemoved={() => setHasLocalPasscode(false)} openEngine={path === '#/connect'} />

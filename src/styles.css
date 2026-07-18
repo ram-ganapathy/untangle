@@ -68,6 +68,8 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .memory-vial-erase { position: absolute; top: -2px; right: -2px; z-index: 2; }
 .memory-vial-erase .erase-action { margin-top: 0; }
 .memory-vial-erase .erase-confirm { position: absolute; top: 0; right: 0; z-index: 3; width: 150px; margin: 0; border: 1px solid #5b5260; border-radius: 10px; padding: 8px; background: #1a2030; text-align: left; box-shadow: 0 10px 24px rgba(0, 0, 0, .34); }
+.look-up-link { display: table; margin: 18px auto 0; color: #9abbd4; font: 12px 'JetBrains Mono', monospace; letter-spacing: .06em; text-decoration: none; }
+.look-up-link:hover { color: #d5e5f0; }
 @keyframes vial-mist { 0%, 100% { transform: translate(-2px, 2px) rotate(-8deg) scale(.9); opacity: .64; } 50% { transform: translate(3px, -3px) rotate(9deg) scale(1.12); opacity: .95; } }
 @keyframes vial-fall { 0% { top: -7px; opacity: 0; } 12% { opacity: .9; } 88% { opacity: .65; } 100% { top: 48px; opacity: 0; } }
 @keyframes vial-ring { to { transform: rotate(360deg); } }

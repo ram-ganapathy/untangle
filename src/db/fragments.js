@@ -50,6 +50,10 @@ export function listFragments(spiralId) {
   return db.fragments.where('spiralId').equals(spiralId).sortBy('createdAt')
 }
 
+export function listAllFragments() {
+  return db.fragments.toArray()
+}
+
 export async function updateFragment(id, changes) {
   return db.transaction('rw', db.fragments, db.spirals, async () => {
     const fragment = await db.fragments.get(id)
