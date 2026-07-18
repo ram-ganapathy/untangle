@@ -3,6 +3,7 @@ import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import EraseSpiral from './EraseSpiral'
+import EntrySediment from './EntrySediment'
 import './Scales.css'
 
 const resolved = new Set([fragmentStatuses.settled, fragmentStatuses.released])
@@ -131,6 +132,7 @@ export default function Scales({ spiral }) {
             {isComplete && <><section className="scales-finished"><p><span>{weighed.length} weighed</span><span>{releasedCount} released as noise</span></p><h2>The weights can rest here.</h2></section>{spiral.closingText && <section className="scales-anchor"><p>THE SMALLEST THING TO FIND OUT FIRST</p><strong>{spiral.closingText}</strong></section>}</>}
           </>}
           <a className="button ghost scales-new" href={`#/new/${spiral.id}`}>Pour in another</a>
+          <EntrySediment spiralId={spiral.id} />
         </section>
       </div>
     </main>

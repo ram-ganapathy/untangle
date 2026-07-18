@@ -3,6 +3,7 @@ import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import EraseSpiral from './EraseSpiral'
+import EntrySediment from './EntrySediment'
 import './Groove.css'
 
 const resolved = new Set([fragmentStatuses.settled, fragmentStatuses.released])
@@ -166,6 +167,7 @@ export default function Groove({ spiral }) {
             </>
           )}
           <a className="button ghost groove-new" href={`#/new/${spiral.id}`}>Pour in another</a>
+          <EntrySediment spiralId={spiral.id} />
         </section>
       </div>
     </main>

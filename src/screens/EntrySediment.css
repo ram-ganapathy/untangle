@@ -1,0 +1,8 @@
+.entry-sediment { margin-top: 32px; border-top: 1px solid rgba(73, 87, 113, .38); padding-top: 17px; }
+.entry-sediment-toggle { border: 0; padding: 0; background: transparent; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(143, 182, 217, .34); text-underline-offset: 4px; }
+.entry-sediment-toggle:hover { color: #b8d2e7; }
+.entry-sediment-list { margin-top: 18px; }
+.entry-sediment-item + .entry-sediment-item { margin-top: 22px; }
+.entry-sediment-meta { display: flex; align-items: center; gap: 10px; margin: 0 0 -12px; color: #788398; font: 11px 'JetBrains Mono', monospace; letter-spacing: .03em; }
+.entry-sediment-source { display: inline-flex; align-items: center; gap: 4px; color: #93afc8; }
+.entry-sediment-source svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }

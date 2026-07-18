@@ -3,6 +3,7 @@ import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import EraseSpiral from './EraseSpiral'
+import EntrySediment from './EntrySediment'
 import './Cascade.css'
 
 function temperature(index, total) {
@@ -91,6 +92,7 @@ export default function Cascade({ spiral }) {
           {releasedCount > 0 && spiral.closingText && <section className="cascade-anchor"><p>WHAT'S ACTUALLY YOURS TO DO</p><strong>{spiral.closingText}</strong></section>}
           {allReleased && <p className="cascade-calm">The chain is down to the one thing that is real.</p>}
           <a className="button ghost cascade-new" href={`#/new/${spiral.id}`}>Pour in another</a>
+          <EntrySediment spiralId={spiral.id} />
         </section>
       </div>
     </main>

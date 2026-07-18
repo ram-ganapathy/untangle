@@ -3,6 +3,7 @@ import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus, updateFragment } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import EraseSpiral from './EraseSpiral'
+import EntrySediment from './EntrySediment'
 import './Basin.css'
 
 const resolved = new Set([fragmentStatuses.settled, fragmentStatuses.released])
@@ -210,6 +211,7 @@ export default function Basin({ spiral }) {
             </>
           )}
           <a className="button ghost basin-new" href={`#/new/${spiral.id}`}>Pour in another</a>
+          <EntrySediment spiralId={spiral.id} />
         </section>
       </div>
     </main>
