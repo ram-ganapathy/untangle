@@ -4,7 +4,8 @@
 .coming-label { display: inline-block; margin: 0 0 14px 8px; color: #8b93a7; font: 10px 'JetBrains Mono', monospace; letter-spacing: .08em; }
 .cascade-list { margin-top: 26px; }
 .cascade-node { position: relative; }
-.cascade-card { border: 1px solid #262e42; border-left: 3px solid var(--node-color); border-radius: 14px; padding: 16px 18px; background: #171d2c; cursor: pointer; animation: cascade-drop .5s ease both; transition: border-color .2s; }
+.cascade-card { position: relative; border: 1px solid #262e42; border-left: 3px solid var(--node-color); border-radius: 14px; padding: 16px 18px; background: #171d2c; cursor: pointer; animation: cascade-drop .5s ease both; transition: border-color .2s; }
+.cascade-returned { position: absolute; top: -10px; right: 14px; border: 1px solid #644f3e; border-radius: 999px; padding: 3px 7px; background: #241f17; color: #d9b98a; font: 10px 'JetBrains Mono', monospace; }
 .cascade-card:hover { border-color: #3d4763; border-left-color: var(--node-color); }
 .cascade-card-top { display: flex; align-items: baseline; gap: 14px; }
 .cascade-card-top > div { min-width: 74px; }

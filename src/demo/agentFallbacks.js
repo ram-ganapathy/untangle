@@ -25,7 +25,21 @@ export function demoAgentFallback(operation, payload = {}) {
     case 'decompose': return diagnosis === 'projection'
       ? { headline: 'The missed deadline spiral', nodes: projectionNodes, anchor: { text: 'Message your manager with a revised date.' } }
       : { headline: 'The Tuesday meeting replay', fragments: replayFragments, keep: { text: 'Ask for ten minutes if it still nags tomorrow.' } }
-    case 'diff': return { new_fragments: [], returning: [], shift: null }
+    case 'diff': {
+      const existing = payload.fragments ?? []
+      const returning = existing.find((fragment) => ['settled', 'released'].includes(fragment.status)) ?? existing[0]
+      const projection = existing.some((fragment) => fragment.kind)
+      return {
+        new_fragments: projection
+          ? [{ text: 'Your manager will think this is a pattern', kind: 'fear', probability: 28, pattern: 'catastrophising', evidence: 'This adds another possible step, not a certainty.' }]
+          : [
+            { text: 'You replayed the pause again this morning', layer: 'happened', pattern: null, note: 'The replay itself is observable in this new entry.' },
+            { text: 'The pause proves they were disappointed', layer: 'added', pattern: 'interpretation', note: 'This gives one ambiguous moment a fixed meaning.' },
+          ],
+        returning: returning ? [{ existingId: returning.id, similarityNote: 'A familiar thread returned in new wording.' }] : [],
+        shift: 'The same thread returned with one new turn.',
+      }
+    }
     case 'pattern_scan': return { patterns: [] }
     default: return { error: `Unknown operation: ${operation}` }
   }

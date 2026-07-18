@@ -30,3 +30,15 @@ export function transitionFragment(fragment, nextStatus, resolvedAt) {
       : null,
   }
 }
+
+export function returnFragment(fragment) {
+  if (![fragmentStatuses.settled, fragmentStatuses.released].includes(fragment.status)) {
+    throw new Error(`Cannot return fragment from ${fragment.status}.`)
+  }
+  return {
+    ...fragment,
+    status: fragmentStatuses.swirling,
+    returnCount: (fragment.returnCount ?? 0) + 1,
+    resolvedAt: null,
+  }
+}

@@ -19,6 +19,7 @@ export default function App() {
   }, [])
 
   if (path === '#/new') return <NewSpiral />
+  if (path.startsWith('#/new/')) return <NewSpiral spiralId={path.slice('#/new/'.length)} />
   if (path === '#/agent-test') return <AgentTest />
   if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
   return <Home />

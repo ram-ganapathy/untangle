@@ -73,6 +73,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
                   {index > 0 && !isReleased && <div className="cascade-connector"><i />then, you fear…</div>}
                   {isReleased ? <p className="released-line">released · was {node.probability}% likely</p> : (
                     <article className="cascade-card" style={{ '--node-color': color, animationDelay: `${index * .14}s` }} onClick={() => setExpanded(isExpanded ? null : node.id)}>
+                      {node.returnCount >= 1 && <span className="cascade-returned">returned ×{node.returnCount}</span>}
                       <div className="cascade-card-top"><div><strong className="cascade-probability">{node.probability < 1 ? node.probability : Math.round(node.probability)}%</strong><span>{isTrigger ? 'REAL' : 'LIKELY'}</span></div><p>{node.text}</p></div>
                       <div className="probability-bar"><i style={{ width: `${Math.max(node.probability, 1.5)}%` }} /></div>
                       {isExpanded && <div className="cascade-evidence"><p>{node.evidence}</p>{!isTrigger && <button type="button" onClick={(event) => { event.stopPropagation(); releaseFear(node) }} disabled={isReleasing}>Release this one</button>}</div>}
@@ -85,7 +86,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
 
           {releasedCount > 0 && spiral.closingText && <section className="cascade-anchor"><p>WHAT'S ACTUALLY YOURS TO DO</p><strong>{spiral.closingText}</strong></section>}
           {allReleased && <p className="cascade-calm">The chain is down to the one thing that is real.</p>}
-          <a className="button ghost cascade-new" href="#/new">Start another</a>
+          <a className="button ghost cascade-new" href={`#/new/${spiral.id}`}>Add a thought</a>
         </section>
       </div>
     </main>

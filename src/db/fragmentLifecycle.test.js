@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { canTransitionFragment, fragmentStatuses, transitionFragment } from './fragmentLifecycle.js'
+import { canTransitionFragment, fragmentStatuses, returnFragment, transitionFragment } from './fragmentLifecycle.js'
 
 const fragment = { id: 'fragment-1', status: fragmentStatuses.swirling, resolvedAt: null }
 
@@ -27,4 +27,21 @@ test('terminal and skipped lifecycle transitions are rejected', () => {
   assert.equal(canTransitionFragment(fragment, fragmentStatuses.settled), false)
   assert.throws(() => transitionFragment(fragment, fragmentStatuses.settled))
   assert.throws(() => transitionFragment({ ...fragment, status: fragmentStatuses.settled }, fragmentStatuses.lifted))
+})
+
+test('a resolved fragment can return to play with a cleared resolution and incremented count', () => {
+  const returned = returnFragment({
+    ...fragment,
+    status: fragmentStatuses.released,
+    returnCount: 1,
+    resolvedAt: '2026-07-17T00:00:00.000Z',
+  })
+
+  assert.deepEqual(returned, {
+    ...fragment,
+    status: fragmentStatuses.swirling,
+    returnCount: 2,
+    resolvedAt: null,
+  })
+  assert.throws(() => returnFragment(fragment))
 })

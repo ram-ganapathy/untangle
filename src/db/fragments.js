@@ -1,5 +1,5 @@
 import { db } from './db'
-import { fragmentStatuses, transitionFragment } from './fragmentLifecycle'
+import { fragmentStatuses, returnFragment as reviveFragment, transitionFragment } from './fragmentLifecycle'
 import { createId, now } from './ids'
 
 const nullableFields = ['entryId', 'layer', 'kind', 'probability', 'evidence', 'pattern', 'note']
@@ -78,5 +78,16 @@ export async function transitionFragmentStatus(id, nextStatus) {
     await db.fragments.put(updated)
     await db.spirals.update(fragment.spiralId, { updatedAt: now() })
     return updated
+  })
+}
+
+export async function returnFragment(id) {
+  return db.transaction('rw', db.fragments, db.spirals, async () => {
+    const fragment = await db.fragments.get(id)
+    if (!fragment) throw new Error('Cannot return a missing fragment.')
+    const returned = reviveFragment(fragment)
+    await db.fragments.put(returned)
+    await db.spirals.update(fragment.spiralId, { updatedAt: now() })
+    return returned
   })
 }

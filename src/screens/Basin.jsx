@@ -141,7 +141,7 @@ export default function Basin({ spiral }) {
                         ref={(element) => { wispRefs.current[fragment.id] = element }}
                         onClick={() => transition(fragment, fragmentStatuses.lifted)}
                         disabled={Boolean(lifted) || isTransitioning}
-                      >{wispLabel(fragment.text)}</button>
+                      ><span className="wisp-label">{wispLabel(fragment.text)}</span>{fragment.returnCount >= 1 && <span className="returned-marker">returned ×{fragment.returnCount}</span>}</button>
                     ))}
                   </div>
                 </div>
@@ -180,7 +180,7 @@ export default function Basin({ spiral }) {
                   </section>
                   {spiral.closingText && <section className="closing-card"><p>{spiral.closingType === 'anchor' ? 'WHAT IS YOURS TO DO' : 'WORTH KEEPING FROM THIS'}</p><strong>{spiral.closingText}</strong></section>}
                   <p className="basin-calm">The record stays. The mist was never yours to carry.</p>
-                  <a className="button ghost basin-new" href="#/new">Pour in another</a>
+                  <a className="button ghost basin-new" href={`#/new/${spiral.id}`}>Pour in another</a>
                 </>
               )}
             </>

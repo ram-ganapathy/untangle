@@ -34,7 +34,7 @@ export default function SpiralView({ spiralId }) {
         <h1>{spiral.title}</h1>
         <p className="subtle">Your thought is held here. Its map comes next.</p>
         {entries.map((entry) => <blockquote className="entry-preview" key={entry.id}>{entry.rawText}</blockquote>)}
-        <a className="button ghost" href="#/new">Add a thought</a>
+        <a className="button ghost" href={`#/new/${spiral.id}`}>Add a thought</a>
       </section>
     </main>
   )
