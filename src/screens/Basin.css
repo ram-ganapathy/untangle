@@ -19,6 +19,7 @@
 .examination-note { margin: 14px 0 18px; color: #a9b0c2; line-height: 1.55; }
 .settle-button { background: #d9b98a; color: #17130f; }
 .release-button { background: #7c89a8; color: #10141f; }
+.layer-override { display: block; margin-top: 14px; border: 0; padding: 0; background: transparent; color: #8fb6d9; cursor: pointer; font-size: 12px; }
 .record { margin-top: 26px; border: 1px solid #403928; border-radius: 16px; padding: 18px; background: #1d1b18; }
 .record-label { margin: 0 0 12px; color: #d9b98a; }
 .stone { margin-top: 9px; border-left: 3px solid #d9b98a; border-radius: 4px; padding: 10px 12px; background: #282217; color: #ede4d3; line-height: 1.45; }

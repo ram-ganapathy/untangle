@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { fragmentStatuses } from '../db/fragmentLifecycle'
-import { listFragments, transitionFragmentStatus } from '../db/fragments'
+import { listFragments, transitionFragmentStatus, updateFragment } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
 import './Basin.css'
 
@@ -102,6 +102,21 @@ export default function Basin({ spiral }) {
     }
   }
 
+  async function toggleLayer(fragment) {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    try {
+      const updated = await updateFragment(fragment.id, {
+        layer: fragment.layer === 'happened' ? 'added' : 'happened',
+      })
+      setFragments((current) => current.map((item) => item.id === updated.id ? updated : item))
+    } catch (error) {
+      console.error('Unable to correct basin fragment.', error)
+    } finally {
+      setIsTransitioning(false)
+    }
+  }
+
   return (
     <main className="page basin-page">
       <div className="shell">
@@ -145,6 +160,7 @@ export default function Basin({ spiral }) {
                     onClick={() => transition(lifted, lifted.layer === 'happened' ? fragmentStatuses.settled : fragmentStatuses.released)}
                     disabled={isTransitioning}
                   >{lifted.layer === 'happened' ? 'Set it in the record' : 'Let it go to mist'}</button>
+                  <button className="layer-override" type="button" onClick={() => toggleLayer(lifted)} disabled={isTransitioning}>Not right? It is actually {lifted.layer === 'happened' ? 'something I added' : 'something that happened'}</button>
                 </article>
               )}
 

@@ -1,0 +1,29 @@
+.cascade-page { padding-top: 40px; }
+.cascade-stage { margin-top: 44px; }
+.cascade-chip { color: #e8926b; }
+.coming-label { display: inline-block; margin: 0 0 14px 8px; color: #8b93a7; font: 10px 'JetBrains Mono', monospace; letter-spacing: .08em; }
+.cascade-list { margin-top: 26px; }
+.cascade-node { position: relative; }
+.cascade-card { border: 1px solid #262e42; border-left: 3px solid var(--node-color); border-radius: 14px; padding: 16px 18px; background: #171d2c; cursor: pointer; animation: cascade-drop .5s ease both; transition: border-color .2s; }
+.cascade-card:hover { border-color: #3d4763; border-left-color: var(--node-color); }
+.cascade-card-top { display: flex; align-items: baseline; gap: 14px; }
+.cascade-card-top > div { min-width: 74px; }
+.cascade-probability { display: block; color: var(--node-color); font: 500 20px 'JetBrains Mono', monospace; }
+.cascade-card-top span { color: #5b6478; font: 10px 'JetBrains Mono', monospace; letter-spacing: .06em; }
+.cascade-card-top p { margin: 0; color: #e2e0d8; line-height: 1.5; }
+.probability-bar { height: 3px; margin-top: 12px; overflow: hidden; border-radius: 2px; background: #232b3f; }
+.probability-bar i { display: block; height: 100%; border-radius: inherit; background: var(--node-color); transition: width .8s ease; }
+.cascade-evidence { margin-top: 14px; border-top: 1px solid #232b3f; padding-top: 14px; animation: cascade-fade .3s ease; }
+.cascade-evidence p { margin: 0 0 12px; color: #a9b0c2; font-size: 13.5px; line-height: 1.6; }
+.cascade-evidence button { border: 1px solid var(--node-color); border-radius: 999px; padding: 8px 18px; background: transparent; color: var(--node-color); cursor: pointer; font-weight: 600; }
+.cascade-connector { display: flex; align-items: center; gap: 8px; padding: 5px 0 5px 30px; color: #4a526a; font-size: 11px; letter-spacing: .08em; }
+.cascade-connector i { width: 1px; height: 22px; margin-left: 6px; background: #2b3348; }
+.released-line { margin: 0; padding: 10px 18px; color: #5b6478; font: 12.5px 'JetBrains Mono', monospace; letter-spacing: .03em; animation: cascade-fade .5s ease; }
+.cascade-anchor { margin-top: 30px; border: 1px solid #2e4a3e; border-radius: 16px; padding: 22px; background: linear-gradient(160deg, #17251f, #131c1f); animation: cascade-drop .6s ease both; }
+.cascade-anchor p { margin: 0 0 8px; color: #7fa8a0; font-size: 11px; font-weight: 600; letter-spacing: .12em; }
+.cascade-anchor strong { color: #e9f0e9; font: 500 20px/1.4 Fraunces, serif; }
+.cascade-calm { color: #8b93a7; text-align: center; }
+.cascade-new { display: table; margin: 28px auto 0; }
+@keyframes cascade-drop { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+@keyframes cascade-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cascade-card, .cascade-anchor { animation: none; } .probability-bar i { transition: none; } }

@@ -15,7 +15,13 @@ const projectionNodes = [
 export function demoAgentFallback(operation, payload = {}) {
   const diagnosis = payload.diagnosis ?? 'replay'
   switch (operation) {
-    case 'diagnose': return { diagnosis: 'replay', confidence: 0.76, headline: 'The Tuesday meeting replay', secondary: null }
+    case 'diagnose': {
+      const rawText = payload.rawText?.toLowerCase() ?? ''
+      const isProjection = /what if|\bwill\b|going to|fired|\blose\b/.test(rawText)
+      return isProjection
+        ? { diagnosis: 'projection', confidence: 0.76, headline: 'The feared future chain', secondary: null }
+        : { diagnosis: 'replay', confidence: 0.76, headline: 'The Tuesday meeting replay', secondary: null }
+    }
     case 'decompose': return diagnosis === 'projection'
       ? { headline: 'The missed deadline spiral', nodes: projectionNodes, anchor: { text: 'Message your manager with a revised date.' } }
       : { headline: 'The Tuesday meeting replay', fragments: replayFragments, keep: { text: 'Ask for ten minutes if it still nags tomorrow.' } }

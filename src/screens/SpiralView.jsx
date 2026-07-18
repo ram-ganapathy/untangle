@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Basin from './Basin'
+import Cascade from './Cascade'
 import { listEntries } from '../db/entries'
 import { getSpiral } from '../db/spirals'
 
@@ -21,6 +22,9 @@ export default function SpiralView({ spiralId }) {
   }
 
   if (spiral.diagnosis === 'replay') return <Basin spiral={spiral} />
+  if (['projection', 'rumination', 'deliberation'].includes(spiral.diagnosis)) {
+    return <Cascade spiral={spiral} showDedicatedScreenNote={spiral.diagnosis !== 'projection'} />
+  }
 
   return (
     <main className="page shell">
