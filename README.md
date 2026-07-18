@@ -13,6 +13,23 @@ The app is designed for a hackathon submission: focused, private, and usable wit
 - Supports follow-up dumps: new fragments arrive and familiar ones return to play with a marker.
 - Includes a keyless demo mode and a safety rail for crisis language.
 
+## Architecture
+
+```mermaid
+flowchart TD
+  User[Person] --> UI[React PWA]
+  UI --> Screens[Home · NewSpiral · Basin · Cascade]
+  UI --> Speech[Web Speech API]
+  Screens <--> DB[(Dexie / IndexedDB\nspirals · entries · fragments)]
+  UI <--> Privacy[localStorage\npasscode hash · optional API key]
+  Screens --> Agent[callAgent]
+  Agent -->|no key| Demo[Built-in demo data]
+  Agent -->|key present| OpenAI[OpenAI Responses API]
+  Agent --> Safety[Safety rail]
+  Safety --> Care[Care screen]
+  UI --> SW[Service worker / cached app shell]
+```
+
 ## Run locally
 
 ```bash
