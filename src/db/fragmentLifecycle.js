@@ -7,7 +7,7 @@ export const fragmentStatuses = Object.freeze({
 
 const transitions = Object.freeze({
   [fragmentStatuses.swirling]: [fragmentStatuses.lifted],
-  [fragmentStatuses.lifted]: [fragmentStatuses.settled, fragmentStatuses.released],
+  [fragmentStatuses.lifted]: [fragmentStatuses.swirling, fragmentStatuses.settled, fragmentStatuses.released],
   [fragmentStatuses.settled]: [],
   [fragmentStatuses.released]: [],
 })

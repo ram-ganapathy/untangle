@@ -23,6 +23,13 @@ test('a lifted fragment can settle or release and records its resolution time', 
   assert.equal(transitionFragment(lifted, fragmentStatuses.released, timestamp).status, fragmentStatuses.released)
 })
 
+test('a lifted fragment can return to swirling without changing its return count', () => {
+  const lifted = { ...fragment, status: fragmentStatuses.lifted, returnCount: 3 }
+  const swirling = transitionFragment(lifted, fragmentStatuses.swirling)
+
+  assert.deepEqual(swirling, { ...lifted, status: fragmentStatuses.swirling, resolvedAt: null })
+})
+
 test('terminal and skipped lifecycle transitions are rejected', () => {
   assert.equal(canTransitionFragment(fragment, fragmentStatuses.settled), false)
   assert.throws(() => transitionFragment(fragment, fragmentStatuses.settled))

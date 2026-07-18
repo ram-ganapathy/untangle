@@ -102,6 +102,25 @@ export default function Basin({ spiral }) {
     }
   }
 
+  async function lift(fragment) {
+    if (isTransitioning || lifted?.id === fragment.id) return
+    setIsTransitioning(true)
+    try {
+      let nextFragments = fragments
+      if (lifted) {
+        const putBack = await transitionFragmentStatus(lifted.id, fragmentStatuses.swirling)
+        nextFragments = nextFragments.map((item) => item.id === putBack.id ? putBack : item)
+      }
+      const newlyLifted = await transitionFragmentStatus(fragment.id, fragmentStatuses.lifted)
+      nextFragments = nextFragments.map((item) => item.id === newlyLifted.id ? newlyLifted : item)
+      setFragments(nextFragments)
+    } catch (error) {
+      console.error('Unable to lift basin fragment.', error)
+    } finally {
+      setIsTransitioning(false)
+    }
+  }
+
   async function toggleLayer(fragment) {
     if (isTransitioning) return
     setIsTransitioning(true)
@@ -139,8 +158,8 @@ export default function Basin({ spiral }) {
                         key={fragment.id}
                         type="button"
                         ref={(element) => { wispRefs.current[fragment.id] = element }}
-                        onClick={() => transition(fragment, fragmentStatuses.lifted)}
-                        disabled={Boolean(lifted) || isTransitioning}
+                        onClick={() => lift(fragment)}
+                        disabled={isTransitioning}
                       ><span className="wisp-label">{wispLabel(fragment.text)}</span>{fragment.returnCount >= 1 && <span className="returned-marker">returned ×{fragment.returnCount}</span>}</button>
                     ))}
                   </div>
@@ -161,6 +180,7 @@ export default function Basin({ spiral }) {
                     disabled={isTransitioning}
                   >{lifted.layer === 'happened' ? 'Set it in the record' : 'Let it go to mist'}</button>
                   <button className="layer-override" type="button" onClick={() => toggleLayer(lifted)} disabled={isTransitioning}>Not right? It is actually {lifted.layer === 'happened' ? 'something I added' : 'something that happened'}</button>
+                  <button className="put-back" type="button" onClick={() => transition(lifted, fragmentStatuses.swirling)} disabled={isTransitioning}>Put it back for now</button>
                 </article>
               )}
 
