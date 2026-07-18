@@ -26,12 +26,21 @@ export async function analyzeAndPersistSpiral(spiral, entries) {
   if (!entries.length) throw new Error('Cannot untangle a spiral without an entry.')
   const rawText = entries.map((entry) => entry.rawText).join('\n\n')
   const diagnosisResult = await callAgent('diagnose', { rawText })
+  if (diagnosisResult.safety) {
+    const updatedSpiral = await updateSpiral(spiral.id, { safety: true, diagnosis: null })
+    return { ...diagnosisResult, spiral: updatedSpiral }
+  }
   const diagnosis = diagnosisResult.diagnosis ?? 'replay'
   const decomposition = await callAgent('decompose', { rawText, diagnosis })
+  if (decomposition.safety) {
+    const updatedSpiral = await updateSpiral(spiral.id, { safety: true, diagnosis: null })
+    return { ...decomposition, spiral: updatedSpiral }
+  }
   const updatedSpiral = await updateSpiral(spiral.id, {
     diagnosis,
     title: diagnosisResult.headline || spiral.title,
     state: 'open',
+    engineFallback: Boolean(diagnosisResult.__untangleFallback || decomposition.__untangleFallback),
     ...closingCard(decomposition),
   })
   // A decomposition of several entries belongs to its latest dump for return-visit diffs.

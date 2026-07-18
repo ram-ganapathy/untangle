@@ -60,6 +60,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
           <span className="chip cascade-chip">DIAGNOSIS · {spiral.diagnosis?.toUpperCase()}</span>
           {showDedicatedScreenNote && <span className="coming-label">DEDICATED SCREEN COMING</span>}
           <h1>{spiral.title}</h1>
+          {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
           <p className="subtle">The chain gets less likely as it travels away from what is real.</p>
 
           <div className="cascade-list">

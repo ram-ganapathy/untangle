@@ -143,6 +143,7 @@ export default function Basin({ spiral }) {
         <section className="basin-stage">
           <span className="chip basin-chip">DIAGNOSIS · REPLAY</span>
           <h1>{spiral.title}</h1>
+          {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
           <p className="subtle">Your memory, held still. Lift each wisp to see what belongs in the record.</p>
 
           {isLoading ? <p className="subtle">Gathering the wisps…</p> : (

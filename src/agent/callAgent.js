@@ -1,5 +1,6 @@
 import { demoAgentFallback } from '../demo/agentFallbacks'
 import { buildAgentInput, systemContext } from './prompts'
+import { hasSafetySignal, safetyResponse } from './safety'
 
 const endpoint = 'https://api.openai.com/v1/responses'
 
@@ -22,25 +23,32 @@ async function request(input, key) {
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ model: 'gpt-5.6-luna', reasoning: { effort: 'low' }, instructions: systemContext, input }),
+    body: JSON.stringify({ model: 'gpt-5.6-luna', reasoning: { effort: 'high' }, instructions: systemContext, input }),
   })
   if (!response.ok) throw new Error(`OpenAI request failed (${response.status}).`)
   return outputText(await response.json())
 }
 
+function demoFallback(operation, payload) {
+  const result = demoAgentFallback(operation, payload)
+  Object.defineProperty(result, '__untangleFallback', { value: true, enumerable: false })
+  return result
+}
+
 export async function callAgent(operation, payload) {
+  if (hasSafetySignal(payload?.rawText)) return safetyResponse()
   try {
     const key = apiKey().trim()
-    if (!key) return demoAgentFallback(operation, payload)
+    if (!key) return demoFallback(operation, payload)
     return JSON.parse(stripFences(await request(buildAgentInput(operation, payload), key)))
   } catch (firstError) {
     try {
       const key = apiKey().trim()
-      if (!key) return demoAgentFallback(operation, payload)
+      if (!key) return demoFallback(operation, payload)
       return JSON.parse(stripFences(await request(buildAgentInput(operation, payload, true), key)))
     } catch (secondError) {
       console.error('Untangle agent failed; using demo fallback.', secondError, firstError)
-      return demoAgentFallback(operation, payload)
+      return demoFallback(operation, payload)
     }
   }
 }

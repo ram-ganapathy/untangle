@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Home from './screens/Home'
 import AgentTest from './screens/AgentTest'
+import CareScreen from './screens/CareScreen'
 import NewSpiral from './screens/NewSpiral'
 import SpiralView from './screens/SpiralView'
 import { db } from './db/db'
@@ -21,6 +22,7 @@ export default function App() {
   if (path === '#/new') return <NewSpiral />
   if (path.startsWith('#/new/')) return <NewSpiral spiralId={path.slice('#/new/'.length)} />
   if (path === '#/agent-test') return <AgentTest />
+  if (path.startsWith('#/care/')) return <CareScreen />
   if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
   return <Home />
 }

@@ -19,8 +19,8 @@ export default function NewSpiral({ spiralId }) {
 
   async function saveNewSpiral(spiralValues, entryValues) {
     const { spiral, entry } = await createSpiralWithEntry({ spiral: spiralValues, entry: entryValues })
-    await analyzeAndPersistSpiral(spiral, [entry])
-    return spiral.id
+    const analysis = await analyzeAndPersistSpiral(spiral, [entry])
+    return { id: spiral.id, safety: analysis.safety }
   }
 
   async function saveToExistingSpiral(rawText, entrySource) {
@@ -28,27 +28,31 @@ export default function NewSpiral({ spiralId }) {
     if (!spiral) throw new Error('Cannot add a thought to a missing spiral.')
     const entry = await createEntry({ spiralId, rawText, source: entrySource })
     if (!spiral.diagnosis) {
-      await analyzeAndPersistSpiral(spiral, await listEntries(spiralId))
-      return spiralId
+      const analysis = await analyzeAndPersistSpiral(spiral, await listEntries(spiralId))
+      return { id: spiralId, safety: analysis.safety }
     }
     const existingFragments = await listFragments(spiralId)
     const diff = await callAgent('diff', { rawText, fragments: existingFragments })
+    if (diff.safety) {
+      await updateSpiral(spiralId, { safety: true })
+      return { id: spiralId, safety: true }
+    }
     const newFragments = agentFragments({ new_fragments: diff.new_fragments }, spiralId, entry.id)
     if (newFragments.length) await createFragments(newFragments)
     const returnable = new Set(existingFragments.filter((fragment) => ['settled', 'released'].includes(fragment.status)).map((fragment) => fragment.id))
     await Promise.all((diff.returning ?? []).filter(({ existingId }) => returnable.has(existingId)).map(({ existingId }) => returnFragment(existingId)))
-    await updateSpiral(spiralId, { state: 'open' })
-    return spiralId
+    await updateSpiral(spiralId, { state: 'open', engineFallback: Boolean(diff.__untangleFallback) })
+    return { id: spiralId, safety: false }
   }
 
   async function saveSpiral(spiralValues, entryValues) {
     setIsSaving(true)
     setError('')
     try {
-      const savedId = spiralId
+      const saved = spiralId
         ? await saveToExistingSpiral(entryValues.rawText, entryValues.source)
         : await saveNewSpiral(spiralValues, entryValues)
-      window.location.hash = `#/spiral/${savedId}`
+      window.location.hash = saved.safety ? `#/care/${saved.id}` : `#/spiral/${saved.id}`
     } catch (saveError) {
       console.error('Unable to save spiral.', saveError)
       setError('Your thought could not be saved. Try again.')

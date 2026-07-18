@@ -9,6 +9,11 @@ export default function AgentTest() {
     if (!text.trim() || isRunning) return
     setIsRunning(true)
     const diagnosis = await callAgent('diagnose', { rawText: text.trim() })
+    if (diagnosis.safety) {
+      console.log('Untangle agent test', { diagnosis })
+      setIsRunning(false)
+      return
+    }
     const decomposition = await callAgent('decompose', { rawText: text.trim(), diagnosis: diagnosis.diagnosis })
     console.log('Untangle agent test', { diagnosis, decomposition })
     setIsRunning(false)

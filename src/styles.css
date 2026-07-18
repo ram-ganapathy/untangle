@@ -38,4 +38,12 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .library-meta { display: flex; align-items: flex-end; flex-direction: column; gap: 6px; }
 .library-meta em { border: 1px solid #33415c; border-radius: 999px; padding: 3px 8px; color: #a9b0c2; font-size: 10px; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
 .library-meta b { color: #7fa8a0; font-size: 11px; font-weight: 500; text-transform: uppercase; }
+.care-page { display: grid; align-content: start; }
+.care-card { margin-top: 88px; border: 1px solid #554438; border-radius: 16px; padding: 24px; background: #1c1a1a; }
+.care-card h1 { font-size: clamp(26px, 5vw, 34px); }
+.care-card > p { color: #d8d3c8; line-height: 1.6; }
+.care-resources { margin: 22px 0; border-left: 3px solid #d8a25e; padding-left: 16px; color: #b9b4aa; line-height: 1.55; }
+.care-resources p { margin: 10px 0; }
+.care-resources a { color: #d9b98a; }
+.engine-banner { margin: 12px 0; color: #d8a25e; font-size: 13px; line-height: 1.5; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

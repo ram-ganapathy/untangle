@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Basin from './Basin'
 import Cascade from './Cascade'
+import CareScreen from './CareScreen'
 import { analyzeAndPersistSpiral } from '../agent/persistAnalysis'
 import { listEntries } from '../db/entries'
 import { getSpiral } from '../db/spirals'
@@ -24,6 +25,8 @@ export default function SpiralView({ spiralId }) {
     return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><p className="subtle">Finding your spiral…</p></section></main>
   }
 
+  if (spiral.safety) return <CareScreen />
+
   if (spiral.diagnosis === 'replay') return <Basin spiral={spiral} />
   if (['projection', 'rumination', 'deliberation'].includes(spiral.diagnosis)) {
     return <Cascade spiral={spiral} showDedicatedScreenNote={spiral.diagnosis !== 'projection'} />
@@ -35,7 +38,8 @@ export default function SpiralView({ spiralId }) {
     setError('')
     try {
       const result = await analyzeAndPersistSpiral(spiral, entries)
-      setSpiral(result.spiral)
+      if (result.safety) window.location.hash = `#/care/${spiral.id}`
+      else setSpiral(result.spiral)
     } catch (analysisError) {
       console.error('Unable to untangle saved spiral.', analysisError)
       setError('Your thought could not be untangled. Try again.')
