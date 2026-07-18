@@ -29,6 +29,13 @@ npm test
 npm run build
 ```
 
+## Try these
+
+- **Replay:** “I keep replaying yesterday’s meeting because I stumbled over my words and now I’m sure everyone thinks I’m incompetent.” → **Basin**
+- **Projection:** “What if I miss this deadline, get fired, and then lose my apartment?” → **Cascade**
+- **Rumination:** “Why do I always ruin good friendships, and what does it say about me that I keep doing this?” → **Cascade** with a dedicated-screen note
+- **Deliberation:** “Should I accept the safer offer or take the role that pays less but could teach me more?” → **Cascade** with a dedicated-screen note
+
 ## PWA and privacy
 
 Untangle registers an installable PWA service worker and caches its app shell. Thought data stays on-device in IndexedDB; the only network request is an optional OpenAI analysis call. Existing spirals remain available offline after the app has loaded once.

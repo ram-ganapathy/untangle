@@ -47,4 +47,5 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .care-resources a { color: #d9b98a; }
 .engine-banner { margin: 12px 0; color: #d8a25e; font-size: 13px; line-height: 1.5; }
 .map-shift { margin: 12px 0; color: #b9c8d8; font: 500 14px/1.55 Fraunces, serif; }
+@media (min-width: 1024px) { .shell { max-width: 740px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

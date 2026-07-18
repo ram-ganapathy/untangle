@@ -37,4 +37,5 @@
 .basin-new { display: table; margin: 20px auto 0; }
 @keyframes basin-turn { to { transform: rotate(360deg); } }
 @keyframes basin-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (min-width: 1024px) { .basin { width: min(100%, 520px); } }
 @media (prefers-reduced-motion: reduce) { .basin-swirl, .examination-card { animation: none; } .wisp { transition: none; } }
