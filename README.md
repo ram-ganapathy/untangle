@@ -30,6 +30,20 @@ flowchart TD
   UI --> SW[Service worker / cached app shell]
 ```
 
+## How this was built
+
+Untangle was built end-to-end in one shared Codex session, with human direction and acceptance decisions guiding the work.
+
+### Codex
+
+The entire implementation was authored by Codex (`gpt-5.6-terra`). It scaffolded each milestone from `AGENTS.md`, ported the reference prototypes onto the real data layer, and fixed issues found during manual testing—including Cascade ordering, interrupted-save recovery, and the lifted-wisp UX. It generated the Home backdrop with `gpt-image-2` after a tool failure by falling back to the CLI, and ran a `/review` security audit with zero findings before push.
+
+### GPT-5.6
+
+In-app intelligence uses `gpt-5.6-luna` through the OpenAI Responses API directly from the browser.
+
+See the [full build timeline and session stats](docs/build-session.html).
+
 ## Run locally
 
 ```bash
@@ -63,4 +77,4 @@ For the final device check, install the production build in a Chromium browser, 
 
 ## Technology
 
-React, Vite, vite-plugin-pwa, Dexie/IndexedDB, Web Speech API, and the OpenAI Responses API.
+React, Vite, vite-plugin-pwa, Dexie/IndexedDB, Web Speech API, the OpenAI Responses API with `gpt-5.6-luna` in-app, and Codex with `gpt-5.6-terra` for the build.

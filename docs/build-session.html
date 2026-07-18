@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Untangle — Build Session</title>
+<link rel="icon" href="../public/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #10141f;
+  --wash: #1b2233;
+  --surface: #171d2c;
+  --line: #262e42;
+  --ink: #e8e6df;
+  --heading: #f0ede4;
+  --muted: #8b93a7;
+  --accent: #8fb6d9;
+  --amber: #d8a25e;
+  --display: Fraunces, 'Iowan Old Style', Georgia, serif;
+  --body: Inter, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ink);
+  font: 400 16px/1.6 var(--body);
+  background: radial-gradient(1200px 700px at 50% -10%, var(--wash), var(--ground) 55%, #0c0f18) fixed var(--ground);
+}
+.stars, .stars::after {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+.stars::before, .stars::after {
+  content: ''; position: fixed; top: 0; left: 0; width: 1px; height: 1px;
+  border-radius: 50%; background: rgba(202, 221, 240, .8);
+  animation: star-breathe-one 7s ease-in-out infinite;
+  box-shadow: 8vw 9vh rgba(202,221,240,.6), 17vw 32vh rgba(162,190,223,.55),
+    25vw 14vh rgba(255,247,218,.5), 39vw 23vh rgba(162,190,223,.5),
+    54vw 11vh rgba(255,247,218,.5), 62vw 43vh rgba(162,190,223,.55),
+    69vw 18vh rgba(202,221,240,.6), 84vw 28vh rgba(162,190,223,.55),
+    92vw 48vh rgba(202,221,240,.6), 12vw 83vh rgba(162,190,223,.45),
+    58vw 87vh rgba(255,247,218,.45), 88vw 86vh rgba(162,190,223,.55);
+}
+.stars::after {
+  animation: star-breathe-two 11s ease-in-out -4s infinite;
+  box-shadow: 5vw 21vh rgba(181,207,235,.5), 22vw 42vh rgba(181,207,235,.6),
+    29vw 76vh rgba(202,221,240,.5), 42vw 6vh rgba(255,247,218,.45),
+    49vw 37vh rgba(181,207,235,.55), 65vw 27vh rgba(255,247,218,.45),
+    73vw 82vh rgba(181,207,235,.5), 81vw 9vh rgba(202,221,240,.55),
+    96vw 34vh rgba(255,247,218,.45), 34vw 67vh rgba(202,221,240,.55);
+}
+@keyframes star-breathe-one { 0%, 100% { opacity: .2; } 50% { opacity: .5; } }
+@keyframes star-breathe-two { 0%, 100% { opacity: .45; } 50% { opacity: .2; } }
+@media (prefers-reduced-motion: reduce) {
+  .stars::before, .stars::after { animation: none; opacity: .3; }
+}
+.shell { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 56px 20px 90px; }
+
+.eyebrow {
+  margin: 0 0 16px; color: var(--accent);
+  font: 600 11px var(--mono); letter-spacing: .14em; text-transform: uppercase;
+}
+h1 {
+  margin: 0 0 14px; max-width: 560px; color: var(--heading);
+  font: 500 clamp(30px, 6vw, 44px)/1.15 var(--display); text-wrap: balance;
+}
+.lede { margin: 0; max-width: 58ch; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+.lede strong { color: var(--ink); font-weight: 500; }
+.session-meta {
+  display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 26px;
+  color: var(--muted); font: 400 11.5px var(--mono); letter-spacing: .02em;
+}
+.session-meta b { color: #a9b0c2; font-weight: 500; }
+
+.stat-band {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-top: 44px;
+}
+.stat {
+  border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 14px;
+  background: rgba(23, 29, 44, .72);
+}
+.stat b {
+  display: block; color: var(--heading);
+  font: 500 30px/1.1 var(--display); font-variant-numeric: tabular-nums;
+}
+.stat b small { font-size: 17px; color: #b9c0d0; }
+.stat span {
+  display: block; margin-top: 6px; color: var(--muted);
+  font: 500 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase;
+}
+@media (max-width: 560px) { .stat-band { grid-template-columns: repeat(2, 1fr); } }
+
+.timeline-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 8px 18px; margin-top: 64px; border-bottom: 1px solid var(--line); padding-bottom: 12px;
+}
+h2 { margin: 0; color: var(--heading); font: 500 24px/1.2 var(--display); }
+.legend { display: flex; gap: 16px; color: var(--muted); font: 400 11px var(--mono); }
+.legend i {
+  display: inline-block; width: 8px; height: 8px; margin-right: 6px;
+  border-radius: 50%; font-style: normal;
+}
+.legend .l-feat i { background: var(--accent); }
+.legend .l-fix i { background: var(--amber); }
+.legend .l-docs i { background: #59627a; }
+
+.act { margin: 0; padding: 0; }
+.act-title {
+  display: flex; align-items: baseline; gap: 14px; margin: 40px 0 6px;
+  color: #c6cbd9; font: 500 17px var(--display);
+}
+.act-title small { color: var(--muted); font: 400 11px var(--mono); letter-spacing: .04em; }
+.rows { position: relative; margin: 0; padding: 10px 0 4px; list-style: none; }
+.rows::before {
+  content: ''; position: absolute; top: 14px; bottom: 10px; left: 57px;
+  width: 1px; background: var(--line);
+}
+.rows li {
+  position: relative; display: grid; grid-template-columns: 46px 24px 1fr;
+  align-items: baseline; padding: 5px 0;
+}
+.rows .t { color: var(--muted); font: 400 11px var(--mono); text-align: right; }
+.rows .dot {
+  position: relative; top: -1px; justify-self: center; align-self: center;
+  width: 9px; height: 9px; border-radius: 50%; background: #59627a;
+  box-shadow: 0 0 0 3px var(--ground);
+}
+.rows .feat .dot { background: var(--accent); }
+.rows .fix .dot { background: var(--amber); }
+.rows .body { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding-left: 8px; }
+.rows .hash { color: #6d7690; font: 400 11px var(--mono); }
+.rows .msg { color: var(--ink); font-size: 14.5px; }
+.rows .tag {
+  border: 1px solid #33415c; border-radius: 999px; padding: 1px 8px;
+  color: var(--accent); font: 500 10px var(--mono); letter-spacing: .08em;
+}
+.rows .event { padding: 10px 0; }
+.rows .event .dot { width: 9px; height: 9px; background: transparent; border: 1.5px solid var(--accent); }
+.rows .event.warn .dot { border-color: var(--amber); }
+.event-card {
+  margin-left: 8px; border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 12px 16px; background: rgba(23, 29, 44, .72);
+}
+.event.warn .event-card { border-left-color: var(--amber); }
+.event-card em {
+  display: block; margin-bottom: 4px; color: var(--accent);
+  font: 600 10px var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase;
+}
+.event.warn .event-card em { color: var(--amber); }
+.event-card p { margin: 0; color: #c6cbd9; font-size: 13.5px; line-height: 1.55; }
+.event-card code { color: #a9b0c2; font: 400 12px var(--mono); }
+.pause {
+  margin: 26px 0 0 78px; color: var(--muted);
+  font: 400 11.5px var(--mono); letter-spacing: .04em;
+}
+
+.closing { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 28px; }
+.closing h2 { font-size: 22px; }
+.closing p { max-width: 62ch; margin: 14px 0 0; color: #c6cbd9; font-size: 15px; line-height: 1.65; }
+.closing p strong { color: var(--heading); font-weight: 500; }
+.verify {
+  margin-top: 22px; color: var(--muted);
+  font: 400 11px var(--mono); line-height: 1.7; overflow-wrap: anywhere;
+}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<div class="shell">
+
+<header>
+  <p class="eyebrow">Build evidence · OpenAI Build Week 2026</p>
+  <h1>One session. The whole build.</h1>
+  <p class="lede">Every commit in Untangle's history was authored by <strong>Codex</strong> inside a single shared session — scaffold to submission, milestones M0 through M9. The human supplied direction, bug reports, and acceptance decisions; the code came from the agent.</p>
+  <div class="session-meta">
+    <span>session <b>019f70ee-a3c8-7af0-aa3b-345e2af96adf</b></span>
+    <span>codex-tui <b>0.144.4</b></span>
+    <span>model <b>gpt-5.6-terra</b> · in-app <b>gpt-5.6-luna</b></span>
+    <span>Jul 17–18, 2026 · times UTC+5:30</span>
+  </div>
+</header>
+
+<section class="stat-band" aria-label="Session totals">
+  <div class="stat"><b>59</b><span>human prompts</span></div>
+  <div class="stat"><b>25</b><span>commits, all by Codex</span></div>
+  <div class="stat"><b>51</b><span>patches applied</span></div>
+  <div class="stat"><b>230</b><span>tool invocations</span></div>
+  <div class="stat"><b>29.4<small>M</small></b><span>tokens · 124.7k output</span></div>
+  <div class="stat"><b>7<small>h</small> 20<small>m</small></b><span>active build time</span></div>
+</section>
+
+<div class="timeline-head">
+  <h2>The commit trail</h2>
+  <div class="legend" aria-hidden="true">
+    <span class="l-feat"><i></i>feat</span>
+    <span class="l-fix"><i></i>fix</span>
+    <span class="l-docs"><i></i>chore · docs</span>
+  </div>
+</div>
+
+<section class="act">
+  <h3 class="act-title">Act I — foundations <small>Jul 17 · 22:05 – 23:46</small></h3>
+  <ul class="rows">
+    <li class="event"><span class="t">22:05</span><span class="dot"></span>
+      <div class="event-card"><em>Session opened</em>
+      <p>The repo holds only <code>AGENTS.md</code>, conventions, and reference prototypes. Codex confirms: no scaffold yet — the build starts at zero.</p></div></li>
+    <li class="feat"><span class="t">22:25</span><span class="dot"></span><span class="body"><code class="hash">dd5ada9</code><span class="msg">scaffold Untangle M0</span><span class="tag">M0</span></span></li>
+    <li class="feat"><span class="t">22:35</span><span class="dot"></span><span class="body"><code class="hash">8bd1c82</code><span class="msg">add M1 data layer</span><span class="tag">M1</span></span></li>
+    <li class="feat"><span class="t">22:51</span><span class="dot"></span><span class="body"><code class="hash">30edc3b</code><span class="msg">add M2 input capture</span><span class="tag">M2</span></span></li>
+    <li class="event"><span class="t">23:11</span><span class="dot"></span>
+      <div class="event-card"><em>Web search</em>
+      <p>Codex reads the Responses API guide on <code>developers.openai.com</code> before writing <code>callAgent</code> — the integration is grounded in current docs, not guessed.</p></div></li>
+    <li class="feat"><span class="t">23:15</span><span class="dot"></span><span class="body"><code class="hash">b7224e2</code><span class="msg">add M3 browser agent harness</span><span class="tag">M3</span></span></li>
+    <li class="docs"><span class="t">23:46</span><span class="dot"></span><span class="body"><code class="hash">f76652f</code><span class="msg">use gpt-5.6-luna for agent calls</span></span></li>
+  </ul>
+  <p class="pause">— overnight pause · 23:46 → 08:50 · one continuous session, no work outside it —</p>
+</section>
+
+<section class="act">
+  <h3 class="act-title">Act II — the product <small>Jul 18 · 08:50 – 14:29</small></h3>
+  <ul class="rows">
+    <li class="feat"><span class="t">08:52</span><span class="dot"></span><span class="body"><code class="hash">4d3a539</code><span class="msg">wire agent results into new spirals</span><span class="tag">M4</span></span></li>
+    <li class="feat"><span class="t">08:58</span><span class="dot"></span><span class="body"><code class="hash">fd9bb4d</code><span class="msg">add replay basin screen</span><span class="tag">M4</span></span></li>
+    <li class="fix"><span class="t">09:19</span><span class="dot"></span><span class="body"><code class="hash">2b82846</code><span class="msg">animate replay basin wisps</span></span></li>
+    <li class="feat"><span class="t">09:22</span><span class="dot"></span><span class="body"><code class="hash">992cc1f</code><span class="msg">add projection cascade screen</span><span class="tag">M5</span></span></li>
+    <li class="fix"><span class="t">09:27</span><span class="dot"></span><span class="body"><code class="hash">0dc50e8</code><span class="msg">order cascade nodes by probability</span></span></li>
+    <li class="feat"><span class="t">09:35</span><span class="dot"></span><span class="body"><code class="hash">d2ab2f0</code><span class="msg">add return visit flow</span><span class="tag">M6</span></span></li>
+    <li class="fix"><span class="t">10:02</span><span class="dot"></span><span class="body"><code class="hash">c698bf1</code><span class="msg">recover undiagnosed saved spirals</span></span></li>
+    <li class="fix"><span class="t">10:26</span><span class="dot"></span><span class="body"><code class="hash">f9f5c74</code><span class="msg">allow switching lifted basin wisps</span></span></li>
+    <li class="fix"><span class="t">10:35</span><span class="dot"></span><span class="body"><code class="hash">05eabca</code><span class="msg">preserve user claims in replay fragments</span></span></li>
+    <li class="feat"><span class="t">10:58</span><span class="dot"></span><span class="body"><code class="hash">a1e8a8a</code><span class="msg">add safety rail and care screen</span><span class="tag">M7</span></span></li>
+    <li class="event"><span class="t">11:01</span><span class="dot"></span>
+      <div class="event-card"><em>/feedback</em>
+      <p>Session ID captured for the submission form.</p></div></li>
+    <li class="event"><span class="t">11:17</span><span class="dot"></span>
+      <div class="event-card"><em>/compact</em>
+      <p>Context compacted mid-build; the session carries on with the task outline intact.</p></div></li>
+    <li class="fix"><span class="t">11:29</span><span class="dot"></span><span class="body"><code class="hash">4df74bc</code><span class="msg">distinguish keyless demo mode from agent failures</span></span></li>
+    <li class="fix"><span class="t">11:32</span><span class="dot"></span><span class="body"><code class="hash">2d9dcfa</code><span class="msg">polish saved spiral and return flows</span></span></li>
+    <li class="docs"><span class="t">12:03</span><span class="dot"></span><span class="body"><code class="hash">4583f9d</code><span class="msg">polish favicon docs and desktop layout</span></span></li>
+    <li class="fix"><span class="t">12:20</span><span class="dot"></span><span class="body"><code class="hash">8e00c6a</code><span class="msg">keep page backgrounds full width on desktop</span></span></li>
+    <li class="event warn"><span class="t">12:44</span><span class="dot"></span>
+      <div class="event-card"><em>Image generation — fail, fall back, succeed</em>
+      <p>The built-in image tool fails, so Codex falls back to the imagegen CLI — <code>gpt-image-2</code>, 1536×1024 webp. After an API-key fix it succeeds at 12:58, verifies the render, and ships it as the home backdrop: <code>public/untangle-galaxy.webp</code>.</p></div></li>
+    <li class="feat"><span class="t">13:02</span><span class="dot"></span><span class="body"><code class="hash">de136ab</code><span class="msg">add local privacy controls and presence backdrop</span><span class="tag">M8</span></span></li>
+    <li class="feat"><span class="t">13:24</span><span class="dot"></span><span class="body"><code class="hash">98dd8fe</code><span class="msg">refine privacy controls and home atmosphere</span><span class="tag">M8</span></span></li>
+    <li class="feat"><span class="t">13:46</span><span class="dot"></span><span class="body"><code class="hash">8ec1dc7</code><span class="msg">add passcode recovery and engine connection</span><span class="tag">M9</span></span></li>
+    <li class="fix"><span class="t">13:54</span><span class="dot"></span><span class="body"><code class="hash">7b79c71</code><span class="msg">refine engine panel controls</span></span></li>
+    <li class="event"><span class="t">14:21</span><span class="dot"></span>
+      <div class="event-card"><em>/review — pre-push security audit</em>
+      <p>Custom instructions: scan for tracked <code>.env</code> files and hardcoded keys before pushing. Verdict at 14:22: <strong>zero findings</strong> — keys live only in env vars or browser localStorage.</p></div></li>
+    <li class="docs"><span class="t">14:29</span><span class="dot"></span><span class="body"><code class="hash">9fc2518</code><span class="msg">add roadmap and project license</span></span></li>
+    <li class="docs"><span class="t">14:29</span><span class="dot"></span><span class="body"><code class="hash">8314a3e</code><span class="msg">add architecture diagram</span></span></li>
+  </ul>
+</section>
+
+<footer class="closing">
+  <h2>Division of labor</h2>
+  <p>Concept and reference prototypes were designed before this session. <strong>Every line of implementation was authored by Codex inside it.</strong> The human's 59 prompts contain no pasted code — they are direction, bug reports found by testing the product, and acceptance decisions. In-app intelligence runs on <strong>gpt-5.6-luna</strong> through the OpenAI Responses API, with a keyless demo fallback so the full experience works without a key.</p>
+  <p class="verify">Verifiable against the shared session file<br>rollout-2026-07-17T22-05-15-019f70ee-a3c8-7af0-aa3b-345e2af96adf.jsonl<br>28.6M of 29.3M input tokens were served from prompt cache.</p>
+</footer>
+
+</div>
+</body>
+</html>
