@@ -1,30 +1,11 @@
 import { useState } from 'react'
 import { callAgent } from '../agent/callAgent'
-import { createEntry } from '../db/entries'
+import { analyzeAndPersistSpiral, agentFragments } from '../agent/persistAnalysis'
+import { createEntry, listEntries } from '../db/entries'
 import { createFragments, listFragments, returnFragment } from '../db/fragments'
 import { createSpiralWithEntry, getSpiral, updateSpiral } from '../db/spirals'
 import { exampleEntry, exampleSpiral } from '../demo/demoData'
 import { useSpeech } from '../stt/useSpeech'
-
-function agentFragments(result, spiralId, entryId) {
-  const items = result.fragments ?? result.nodes ?? result.new_fragments ?? []
-  return items.map(({ text, layer, kind, probability, evidence, pattern, note }) => {
-    const fragment = { spiralId, entryId, text }
-    if (layer !== undefined) fragment.layer = layer
-    if (kind !== undefined) fragment.kind = kind
-    if (probability !== undefined) fragment.probability = probability
-    if (evidence !== undefined) fragment.evidence = evidence
-    if (pattern !== undefined) fragment.pattern = pattern
-    if (note !== undefined) fragment.note = note
-    return fragment
-  })
-}
-
-function closingCard(result) {
-  if (result.keep?.text) return { closingText: result.keep.text, closingType: 'keep' }
-  if (result.anchor?.text) return { closingText: result.anchor.text, closingType: 'anchor' }
-  return {}
-}
 
 export default function NewSpiral({ spiralId }) {
   const [text, setText] = useState('')
@@ -38,12 +19,7 @@ export default function NewSpiral({ spiralId }) {
 
   async function saveNewSpiral(spiralValues, entryValues) {
     const { spiral, entry } = await createSpiralWithEntry({ spiral: spiralValues, entry: entryValues })
-    const diagnosisResult = await callAgent('diagnose', { rawText: entry.rawText })
-    const diagnosis = diagnosisResult.diagnosis ?? 'replay'
-    const decomposition = await callAgent('decompose', { rawText: entry.rawText, diagnosis })
-    await updateSpiral(spiral.id, { diagnosis, title: diagnosisResult.headline || spiral.title, ...closingCard(decomposition) })
-    const fragments = agentFragments(decomposition, spiral.id, entry.id)
-    if (fragments.length) await createFragments(fragments)
+    await analyzeAndPersistSpiral(spiral, [entry])
     return spiral.id
   }
 
@@ -51,6 +27,10 @@ export default function NewSpiral({ spiralId }) {
     const spiral = await getSpiral(spiralId)
     if (!spiral) throw new Error('Cannot add a thought to a missing spiral.')
     const entry = await createEntry({ spiralId, rawText, source: entrySource })
+    if (!spiral.diagnosis) {
+      await analyzeAndPersistSpiral(spiral, await listEntries(spiralId))
+      return spiralId
+    }
     const existingFragments = await listFragments(spiralId)
     const diff = await callAgent('diff', { rawText, fragments: existingFragments })
     const newFragments = agentFragments({ new_fragments: diff.new_fragments }, spiralId, entry.id)
