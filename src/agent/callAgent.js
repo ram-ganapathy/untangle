@@ -29,9 +29,9 @@ async function request(input, key) {
   return outputText(await response.json())
 }
 
-function demoFallback(operation, payload) {
+function demoFallback(operation, payload, didFail = false) {
   const result = demoAgentFallback(operation, payload)
-  Object.defineProperty(result, '__untangleFallback', { value: true, enumerable: false })
+  if (didFail) Object.defineProperty(result, '__untangleFallback', { value: true, enumerable: false })
   return result
 }
 
@@ -48,7 +48,7 @@ export async function callAgent(operation, payload) {
       return JSON.parse(stripFences(await request(buildAgentInput(operation, payload, true), key)))
     } catch (secondError) {
       console.error('Untangle agent failed; using demo fallback.', secondError, firstError)
-      return demoFallback(operation, payload)
+      return demoFallback(operation, payload, true)
     }
   }
 }
