@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus, updateFragment } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
+import EraseSpiral from './EraseSpiral'
 import './Basin.css'
 
 const resolved = new Set([fragmentStatuses.settled, fragmentStatuses.released])
@@ -146,6 +147,7 @@ export default function Basin({ spiral }) {
           {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
           {spiral.shift && <p className="map-shift">{spiral.shift}</p>}
           <p className="subtle">Your memory, held still. Lift each wisp to see what belongs in the record.</p>
+          <EraseSpiral spiralId={spiral.id} />
 
           {isLoading ? <p className="subtle">Gathering the wisps…</p> : (
             <>

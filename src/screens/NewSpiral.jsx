@@ -84,7 +84,7 @@ export default function NewSpiral({ spiralId }) {
 
   const returning = Boolean(spiralId)
   return (
-    <main className="page">
+    <main className="page new-spiral-page">
       <div className="shell">
         <header className="brand"><a href="#/">Untangle</a><span>{returning ? 'add to spiral' : 'new spiral'}</span></header>
         <section className="form-stage">

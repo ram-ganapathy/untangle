@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
+import EraseSpiral from './EraseSpiral'
 import './Cascade.css'
 
 function temperature(index, total) {
@@ -63,6 +64,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
           {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
           {spiral.shift && <p className="map-shift">{spiral.shift}</p>}
           <p className="subtle">The chain gets less likely as it travels away from what is real.</p>
+          <EraseSpiral spiralId={spiral.id} />
 
           <div className="cascade-list">
             {nodes.map((node, index) => {

@@ -47,5 +47,21 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .care-resources a { color: #d9b98a; }
 .engine-banner { margin: 12px 0; color: #d8a25e; font-size: 13px; line-height: 1.5; }
 .map-shift { margin: 12px 0; color: #b9c8d8; font: 500 14px/1.55 Fraunces, serif; }
+.erase-action, .lock-action { display: block; margin-top: 16px; border: 0; padding: 0; background: transparent; color: #8b93a7; cursor: pointer; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.erase-confirm { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; color: #c6cbd9; font-size: 12px; }
+.erase-confirm button { border: 0; padding: 0; background: transparent; color: #d8a25e; cursor: pointer; font-size: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.lock-setup { max-width: 390px; margin-top: 22px; border: 1px solid #30394f; border-radius: 14px; padding: 16px; background: rgba(23, 29, 44, .9); }
+.lock-setup label { display: block; margin-bottom: 10px; color: #c6cbd9; font-size: 13px; }
+.lock-setup .subtle { margin: 12px 0 0; font-size: 12px; }
+.passcode-input { display: block; width: 100%; max-width: 220px; border: 1px solid #3d4763; border-radius: 10px; padding: 11px 12px; background: #111725; color: #e8e6df; font: 500 18px 'JetBrains Mono', monospace; letter-spacing: .2em; outline: none; }
+.passcode-input:focus { border-color: #8fb6d9; }
+.lock-page { display: grid; align-content: start; }
+.lock-card { max-width: 500px; margin-top: 88px; border: 1px solid #30394f; border-radius: 16px; padding: 24px; background: #171d2c; }
+.lock-card form { margin-top: 22px; }
+.lock-card .button { display: block; }
+.home-page, .new-spiral-page, .care-page { position: relative; overflow: hidden; }
+.home-page::before, .new-spiral-page::before, .care-page::before { position: absolute; z-index: 0; inset: 0; content: ''; pointer-events: none; background: linear-gradient(to bottom, rgba(16, 20, 31, .1) 0%, rgba(16, 20, 31, .42) 52%, #10141f 92%), url('/untangle-galaxy.webp') center top / cover no-repeat; opacity: .34; }
+.new-spiral-page::before, .care-page::before { opacity: .16; }
+.home-page > .shell, .new-spiral-page > .shell, .care-page > .shell { position: relative; z-index: 1; }
 @media (min-width: 1024px) { .shell { max-width: 740px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

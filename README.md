@@ -40,6 +40,8 @@ npm run build
 
 Untangle registers an installable PWA service worker and caches its app shell. Thought data stays on-device in IndexedDB; the only network request is an optional OpenAI analysis call. Existing spirals remain available offline after the app has loaded once.
 
+You can optionally add a local passcode as a privacy curtain for a shared laptop. It is not encryption: saved thought data remains in this browser’s local storage, and clearing Untangle’s site data removes both the passcode and the saved spirals.
+
 For the final device check, install the production build in a Chromium browser, create a spiral, then enable airplane mode and reopen the library.
 
 ## Technology

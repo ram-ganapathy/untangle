@@ -5,6 +5,7 @@ import CareScreen from './CareScreen'
 import { analyzeAndPersistSpiral } from '../agent/persistAnalysis'
 import { listEntries } from '../db/entries'
 import { getSpiral } from '../db/spirals'
+import EraseSpiral from './EraseSpiral'
 
 export default function SpiralView({ spiralId }) {
   const [spiral, setSpiral] = useState(null)
@@ -67,6 +68,7 @@ export default function SpiralView({ spiralId }) {
         {entries.map((entry) => <blockquote className="entry-preview" key={entry.id}>{entry.rawText}</blockquote>)}
         <button className="button primary" type="button" onClick={untangle} disabled={!entries.length || isUntangling}>{isUntangling ? 'Untangling…' : 'Untangle it'}</button>
         <a className="button ghost" href={`#/new/${spiral.id}`}>Pour in another</a>
+        <EraseSpiral spiralId={spiral.id} />
         {error && <p className="form-error">{error}</p>}
         </section>
       </div>
