@@ -2,13 +2,14 @@
 .basin-stage { margin-top: 44px; }
 .basin-chip { color: #8fb6d9; }
 .basin-wrap { display: grid; place-items: center; margin: 30px 0 12px; }
-.basin { position: relative; width: min(100%, 430px); aspect-ratio: 1; overflow: hidden; border: 1px solid #31405a; border-radius: 50%; background: radial-gradient(circle at 50% 46%, #20334a 0%, #162233 38%, #111722 68%, #0d121d); box-shadow: inset 0 0 64px rgba(93, 155, 199, .13), 0 24px 64px rgba(0, 0, 0, .25); }
-.basin-swirl { position: absolute; inset: 18%; border: 1px solid rgba(143, 182, 217, .24); border-radius: 45% 55% 50% 50%; animation: basin-turn 18s linear infinite; }
+.basin { position: relative; width: min(100%, 430px); aspect-ratio: 1; overflow: hidden; border: 1px solid #232b3f; border-radius: 50%; background: radial-gradient(circle at 50% 42%, rgba(143, 182, 217, .10), rgba(143, 182, 217, .03) 55%, transparent 72%), radial-gradient(circle at 50% 50%, #141b2b 0%, #10151f 68%, #0c0f18 100%); box-shadow: inset 0 0 60px rgba(20, 28, 48, .9), inset 0 0 18px rgba(143, 182, 217, .10), 0 0 40px rgba(143, 182, 217, .05); }
+.basin-swirl { position: absolute; inset: -20%; background: conic-gradient(from 0deg, transparent 0deg, rgba(143, 182, 217, .06) 40deg, transparent 90deg, rgba(216, 185, 138, .04) 150deg, transparent 200deg, rgba(143, 182, 217, .05) 280deg, transparent 340deg); animation: basin-turn 26s linear infinite; transition: opacity 1.5s; }
+.basin-swirl.calm { opacity: .18; animation-duration: 80s; }
 .basin-ring { position: absolute; inset: 11%; border: 1px solid rgba(143, 182, 217, .10); border-radius: 50%; }
 .ring-two { inset: 25%; border-style: dashed; }
 .ring-three { inset: 38%; border-color: rgba(143, 182, 217, .17); }
-.wisp { position: absolute; top: 50%; left: 50%; width: 86px; min-height: 54px; transform: translate(-50%, -50%) rotate(var(--wisp-angle)) translateX(var(--wisp-radius)) rotate(calc(-1 * var(--wisp-angle))); border: 1px solid #4c6685; border-radius: 999px; padding: 8px 10px; background: rgba(31, 51, 75, .88); box-shadow: 0 0 18px rgba(143, 182, 217, .2); color: #dbe7ef; cursor: pointer; font-size: 11px; line-height: 1.3; transition: transform .2s, opacity .2s; }
-.wisp:hover { border-color: #8fb6d9; transform: translate(-50%, -50%) rotate(var(--wisp-angle)) translateX(var(--wisp-radius)) rotate(calc(-1 * var(--wisp-angle))) scale(1.06); }
+.wisp { position: absolute; top: 0; left: 0; width: 66px; height: 66px; display: grid; place-items: center; border: 0; border-radius: 50%; padding: 6px; background: radial-gradient(circle at 38% 32%, rgba(232, 230, 223, .28), rgba(143, 182, 217, .16) 46%, rgba(143, 182, 217, .05) 72%, transparent); box-shadow: 0 0 18px rgba(143, 182, 217, .22), inset 0 0 10px rgba(232, 230, 223, .10); color: #c6cbd9; cursor: pointer; font-size: 9.5px; letter-spacing: .02em; line-height: 1.25; text-align: center; transition: box-shadow .3s, opacity .2s; user-select: none; will-change: transform; }
+.wisp:hover { box-shadow: 0 0 26px rgba(143, 182, 217, .4), inset 0 0 12px rgba(232, 230, 223, .16); }
 .wisp:disabled { cursor: default; opacity: .45; }
 .basin-hint, .mist-count, .record-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; }
 .basin-hint { margin: 18px 0 0; color: #5b6478; text-align: center; }

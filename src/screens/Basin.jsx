@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fragmentStatuses } from '../db/fragmentLifecycle'
 import { listFragments, transitionFragmentStatus } from '../db/fragments'
 import { updateSpiral } from '../db/spirals'
@@ -15,6 +15,9 @@ export default function Basin({ spiral }) {
   const [fragments, setFragments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const basinRef = useRef(null)
+  const wispRefs = useRef({})
+  const orbitParams = useRef({})
 
   useEffect(() => {
     setIsLoading(true)
@@ -29,6 +32,58 @@ export default function Basin({ spiral }) {
   const stones = fragments.filter((fragment) => fragment.status === fragmentStatuses.settled)
   const mistCount = fragments.filter((fragment) => fragment.status === fragmentStatuses.released).length
   const isComplete = fragments.length > 0 && fragments.every((fragment) => resolved.has(fragment.status))
+
+  useEffect(() => {
+    if (!swirling.length) return undefined
+
+    swirling.forEach((fragment, index) => {
+      if (orbitParams.current[fragment.id]) return
+      orbitParams.current[fragment.id] = {
+        theta: index * 2.1 + 0.4,
+        rFrac: 0.28 + (index % 4) * 0.13,
+        speed: 0.00006 + (index % 5) * 0.000018,
+        wobbleAmplitude: 4 + (index % 3) * 3,
+        wobbleFrequency: 0.0007 + (index % 4) * 0.00015,
+        wobblePhase: index * 1.7,
+      }
+    })
+
+    const place = (time, shouldAdvance) => {
+      const basin = basinRef.current
+      if (!basin) return
+      const radius = basin.clientWidth / 2
+      swirling.forEach((fragment) => {
+        const wisp = wispRefs.current[fragment.id]
+        const params = orbitParams.current[fragment.id]
+        if (!wisp || !params) return
+        if (shouldAdvance) params.theta += params.speed * time
+        const wobble = shouldAdvance
+          ? params.wobbleAmplitude * Math.sin(time * params.wobbleFrequency + params.wobblePhase)
+          : 0
+        const orbitRadius = params.rFrac * (radius - 44) + wobble
+        const x = radius + orbitRadius * Math.cos(params.theta) - 33
+        const y = radius + orbitRadius * Math.sin(params.theta) - 33
+        wisp.style.transform = `translate(${x}px, ${y}px)`
+      })
+    }
+
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) {
+      place(0, false)
+      return undefined
+    }
+
+    let frame
+    let previous = performance.now()
+    const tick = (time) => {
+      const elapsed = time - previous
+      previous = time
+      place(elapsed, true)
+      frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [fragments])
 
   async function transition(fragment, nextStatus) {
     if (isTransitioning) return
@@ -60,15 +115,15 @@ export default function Basin({ spiral }) {
             <>
               {!isComplete && (
                 <div className="basin-wrap">
-                  <div className={`basin ${swirling.length <= 2 ? 'calm' : ''}`}>
-                    <div className="basin-swirl" />
+                  <div className={`basin ${swirling.length <= 2 ? 'calm' : ''}`} ref={basinRef}>
+                    <div className={`basin-swirl ${swirling.length <= 2 ? 'calm' : ''}`} />
                     <div className="basin-ring ring-one" /><div className="basin-ring ring-two" /><div className="basin-ring ring-three" />
-                    {swirling.map((fragment, index) => (
+                    {swirling.map((fragment) => (
                       <button
                         className="wisp"
                         key={fragment.id}
                         type="button"
-                        style={{ '--wisp-angle': `${(index * 137) % 360}deg`, '--wisp-radius': `${30 + (index % 3) * 16}%` }}
+                        ref={(element) => { wispRefs.current[fragment.id] = element }}
                         onClick={() => transition(fragment, fragmentStatuses.lifted)}
                         disabled={Boolean(lifted) || isTransitioning}
                       >{wispLabel(fragment.text)}</button>
