@@ -61,9 +61,9 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .vial-settled .vial-glass { border-color: rgba(183, 223, 207, .46); box-shadow: inset 5px 0 8px rgba(231, 244, 249, .1), 0 0 19px rgba(128, 204, 171, .13); }
 .vial-settled .vial-content { opacity: .2; animation: none; }
 .vial-settled .vial-content i { animation: none; }
-.memory-vial-label { display: block; min-width: 0; }
+.memory-vial-label { display: block; width: 100%; min-width: 0; }
 .memory-vial-label strong, .memory-vial-label small { display: block; }
-.memory-vial-label strong { overflow: hidden; color: #e8e6df; font: 500 15px/1.25 Fraunces, serif; text-overflow: ellipsis; white-space: nowrap; }
+.memory-vial-label strong { display: -webkit-box; overflow: hidden; min-height: 38px; color: #e8e6df; font: 500 15px/1.25 Fraunces, serif; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .memory-vial-label small { margin-top: 5px; color: #9ba5b8; font-size: 11px; }
 .memory-vial-erase { position: absolute; top: -2px; right: -2px; z-index: 2; }
 .memory-vial-erase .erase-action { margin-top: 0; }
@@ -142,4 +142,5 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 @keyframes star-breathe-one { 0%, 100% { opacity: .25; } 50% { opacity: .55; } }
 @keyframes star-breathe-two { 0%, 100% { opacity: .5; } 50% { opacity: .25; } }
 @media (min-width: 1024px) { .shell { max-width: 740px; } }
+@media (min-width: 560px) { .memory-shelf { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } .home-page::after, .home-page > .shell::before { animation: none; opacity: .38; } .memory-vial *, .memory-vial::before, .memory-vial::after { animation: none !important; } .vial-open .vial-content { opacity: .72; } }
