@@ -19,11 +19,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
     listFragments(spiral.id)
       .then((fragments) => setNodes(
         fragments
-          // Until M13 replaces this stopgap with the Groove, rumination fragments use Cascade's release flow.
-          .filter((fragment) => fragment.kind || spiral.diagnosis === 'rumination')
-          .map((fragment) => spiral.diagnosis === 'rumination' && !fragment.kind
-            ? { ...fragment, kind: 'fear', probability: 50, evidence: fragment.note }
-            : fragment)
+          .filter((fragment) => fragment.kind)
           .sort((left, right) => (right.probability ?? 0) - (left.probability ?? 0)),
       ))
       .catch((error) => console.error('Unable to load cascade fragments.', error))
@@ -43,9 +39,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
         current = await transitionFragmentStatus(current.id, fragmentStatuses.lifted)
       }
       const released = await transitionFragmentStatus(current.id, fragmentStatuses.released)
-      // Keep M10's temporary rumination display fields after the persisted fragment reloads.
-      const releasedNode = { ...released, kind: fear.kind, probability: fear.probability, evidence: fear.evidence }
-      const nextNodes = nodes.map((node) => node.id === released.id ? releasedNode : node)
+      const nextNodes = nodes.map((node) => node.id === released.id ? released : node)
       setNodes(nextNodes)
       setExpanded(null)
       if (nextNodes.filter((node) => node.kind === 'fear').every((node) => node.status === fragmentStatuses.released)) {
