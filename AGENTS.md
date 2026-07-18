@@ -72,6 +72,39 @@ The agent NEVER chats. Its output is JSON mutations to the map. See `.codex/skil
 - Empty states and error states per conventions
 ✅ Verify: install to home screen on camera; airplane mode → library still opens.
 
+### M8 — Privacy & presence (v1.1)
+- "Erase this spiral" on every spiral screen (basin, cascade, waiting view):
+  small text action with a one-step inline confirm (no browser confirm());
+  deletes the spiral AND its entries and fragments in one Dexie transaction
+- Home backdrop: dark starry-galaxy abstract (generated asset in /public,
+  webp ≤250KB), shown at low opacity with a gradient fade to #10141F so text
+  contrast is untouched; keep it near-black with sparse faint stars and dim nebula wisps; subtle variant ok on NewSpiral and Care, never behind
+  the basin/cascade maps;
+- Optional local passcode (no accounts by design): "Lock this space" on Home →
+  set 4–6 digits, stored as a salted hash in localStorage, asked on every load.
+  While unlocked: "change passcode" and "remove lock" (both require the current
+  code). Lock screen: "forgot your passcode?" → the only reset is erasing saved
+  spirals (type ERASE to confirm), then unlock to an empty library. README states
+  plainly: privacy curtain for shared laptops, not encryption.
+✅ Verify: erase leaves zero rows for that spiral in any table; home text stays
+   legible over the backdrop; wrong passcode blocks, right one unlocks, data intact.
+
+### M9 — Engine connection (BYOK)
+- Engine status on Home, small line under the hero: "engine: demo examples" or
+  "engine: live" depending on whether a key exists. Clicking it opens an inline
+  connect panel: password input to paste an OpenAI API key, note "stays in this
+  browser only, sent only to OpenAI"; Save validates the key with GET /v1/models
+  (401 → "that key doesn't work") and stores it in localStorage untangle.apiKey
+  (callAgent already reads it); "disconnect engine" removes it. Keyless use is
+  never blocked — demo mode stays first-class.
+- Honest demo content: when callAgent returns no-key demo data, tag the result
+  (like the existing failure marker), persist demoEngine: true on that spiral, and
+  show a quiet chip on its map — "demo example — connect the engine to map your own
+  words" — linking back to the connect panel.
+- README: replace the devtools localStorage instructions with the in-app flow.
+✅ Verify: keyless spiral shows the demo chip; a bad key errors on save; a good key
+   flips status to live and a new rant maps the user's own words.
+
 ## Out of scope (do not build)
 Accounts, sync, notifications, sentiment-from-audio, Rumination/Deliberation
 dedicated screens, sharing, theming.
