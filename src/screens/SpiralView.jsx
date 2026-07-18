@@ -9,21 +9,29 @@ import { getSpiral } from '../db/spirals'
 export default function SpiralView({ spiralId }) {
   const [spiral, setSpiral] = useState(null)
   const [entries, setEntries] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isUntangling, setIsUntangling] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     async function load() {
+      setIsLoading(true)
       const savedSpiral = await getSpiral(spiralId)
       setSpiral(savedSpiral)
       if (savedSpiral) setEntries(await listEntries(spiralId))
+      setIsLoading(false)
     }
-    load().catch((error) => console.error('Unable to load spiral.', error))
+    load().catch((error) => {
+      console.error('Unable to load spiral.', error)
+      setIsLoading(false)
+    })
   }, [spiralId])
 
-  if (!spiral) {
+  if (isLoading) {
     return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><p className="subtle">Finding your spiral…</p></section></main>
   }
+
+  if (!spiral) return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><h1>This spiral isn’t here.</h1><p className="subtle">It may have been removed, or this link is incomplete.</p><a className="button primary" href="#/">Back to your library</a></section></main>
 
   if (spiral.safety) return <CareScreen />
 
@@ -57,7 +65,7 @@ export default function SpiralView({ spiralId }) {
         <p className="subtle">Your thought is held here. Its map is ready to be made.</p>
         {entries.map((entry) => <blockquote className="entry-preview" key={entry.id}>{entry.rawText}</blockquote>)}
         <button className="button primary" type="button" onClick={untangle} disabled={!entries.length || isUntangling}>{isUntangling ? 'Untangling…' : 'Untangle it'}</button>
-        <a className="button ghost" href={`#/new/${spiral.id}`}>Add a thought</a>
+        <a className="button ghost" href={`#/new/${spiral.id}`}>Pour in another</a>
         {error && <p className="form-error">{error}</p>}
       </section>
     </main>

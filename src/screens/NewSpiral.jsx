@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { callAgent } from '../agent/callAgent'
 import { analyzeAndPersistSpiral, agentFragments } from '../agent/persistAnalysis'
 import { createEntry, listEntries } from '../db/entries'
@@ -12,6 +12,7 @@ export default function NewSpiral({ spiralId }) {
   const [source, setSource] = useState('text')
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
+  const saveInProgress = useRef(false)
   const speech = useSpeech((transcript) => {
     setText((current) => `${current}${current ? ' ' : ''}${transcript}`)
     setSource('voice')
@@ -41,11 +42,17 @@ export default function NewSpiral({ spiralId }) {
     if (newFragments.length) await createFragments(newFragments)
     const returnable = new Set(existingFragments.filter((fragment) => ['settled', 'released'].includes(fragment.status)).map((fragment) => fragment.id))
     await Promise.all((diff.returning ?? []).filter(({ existingId }) => returnable.has(existingId)).map(({ existingId }) => returnFragment(existingId)))
-    await updateSpiral(spiralId, { state: 'open', engineFallback: Boolean(diff.__untangleFallback) })
+    await updateSpiral(spiralId, {
+      state: 'open',
+      engineFallback: Boolean(diff.__untangleFallback),
+      shift: diff.shift ?? null,
+    })
     return { id: spiralId, safety: false }
   }
 
   async function saveSpiral(spiralValues, entryValues) {
+    if (saveInProgress.current) return
+    saveInProgress.current = true
     setIsSaving(true)
     setError('')
     try {
@@ -57,6 +64,7 @@ export default function NewSpiral({ spiralId }) {
       console.error('Unable to save spiral.', saveError)
       setError('Your thought could not be saved. Try again.')
     } finally {
+      saveInProgress.current = false
       setIsSaving(false)
     }
   }
@@ -86,8 +94,8 @@ export default function NewSpiral({ spiralId }) {
           {speech.interimTranscript && <p className="interim">{speech.interimTranscript}…</p>}
           <div className="actions">
             {speech.isSupported && <button className={`mic ${speech.isListening ? 'listening' : ''}`} type="button" onClick={speech.isListening ? speech.stop : speech.start} aria-label={speech.isListening ? 'Stop listening' : 'Speak your thought'}><span aria-hidden="true">◉</span></button>}
-            <button className="button primary" type="button" onClick={holdItStill} disabled={!text.trim() || isSaving}>{isSaving ? 'Holding it still…' : 'Hold it still'}</button>
-            <button className="button ghost" type="button" onClick={showExample} disabled={isSaving}>Show me an example</button>
+            <button className="button primary" type="button" onClick={holdItStill} disabled={!text.trim() || isSaving}>{isSaving ? 'Holding it still…' : returning ? 'Pour in another' : 'Hold it still'}</button>
+            {!returning && <button className="button ghost" type="button" onClick={showExample} disabled={isSaving}>Show me an example</button>}
           </div>
         </div>
         {speech.isListening && <p className="subtle listening-copy">Listening — tell it like it replays.</p>}

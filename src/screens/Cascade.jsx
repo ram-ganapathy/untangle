@@ -61,6 +61,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
           {showDedicatedScreenNote && <span className="coming-label">DEDICATED SCREEN COMING</span>}
           <h1>{spiral.title}</h1>
           {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
+          {spiral.shift && <p className="map-shift">{spiral.shift}</p>}
           <p className="subtle">The chain gets less likely as it travels away from what is real.</p>
 
           <div className="cascade-list">
@@ -87,7 +88,7 @@ export default function Cascade({ spiral, showDedicatedScreenNote = false }) {
 
           {releasedCount > 0 && spiral.closingText && <section className="cascade-anchor"><p>WHAT'S ACTUALLY YOURS TO DO</p><strong>{spiral.closingText}</strong></section>}
           {allReleased && <p className="cascade-calm">The chain is down to the one thing that is real.</p>}
-          <a className="button ghost cascade-new" href={`#/new/${spiral.id}`}>Add a thought</a>
+          <a className="button ghost cascade-new" href={`#/new/${spiral.id}`}>Pour in another</a>
         </section>
       </div>
     </main>
