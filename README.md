@@ -20,17 +20,17 @@ Built for a hackathon submission: focused, private, and usable without an accoun
 
 ```mermaid
 flowchart TD
-  User[Person] --> UI[React PWA]
-  UI --> Screens[Home | NewSpiral | Basin | Cascade | Groove | Scales | Sky]
-  UI --> Speech[Web Speech API]
-  Screens <--> DB[(Dexie / IndexedDB\nspirals | entries | fragments)]
-  UI <--> Privacy[localStorage\npasscode hash | optional API key]
-  Screens --> Agent[callAgent]
-  Agent -->|no key| Demo[Built-in demo data]
-  Agent -->|key present| OpenAI[OpenAI Responses API]
-  Agent --> Safety[Safety rail]
-  Safety --> Care[Care screen]
-  UI --> SW[Service worker / cached app shell]
+  User["Person"] --> UI["React PWA"]
+  UI --> Screens["Home, NewSpiral, Basin, Cascade, Groove, Scales, Sky"]
+  UI --> Speech["Web Speech API"]
+  Screens <--> DB["Dexie / IndexedDB<br/>spirals, entries, fragments"]
+  UI <--> Privacy["localStorage<br/>passcode hash, optional API key"]
+  Screens --> Agent["callAgent"]
+  Agent --> Demo["Built-in demo data (no key)"]
+  Agent --> OpenAI["OpenAI Responses API (key present)"]
+  Agent --> Safety["Safety rail"]
+  Safety --> Care["Care screen"]
+  UI --> SW["Service worker / cached app shell"]
 ```
 
 ## How this was built
