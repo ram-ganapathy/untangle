@@ -29,5 +29,5 @@ export default function App() {
   if (path === '#/agent-test') return <AgentTest />
   if (path.startsWith('#/care/')) return <CareScreen />
   if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
-  return <Home hasLocalPasscode={hasLocalPasscode} onPasscodeSet={() => { setIsLocked(false); setHasLocalPasscode(true) }} onPasscodeRemoved={() => setHasLocalPasscode(false)} openEngine={path === '#/connect'} />
+  return <Home hasLocalPasscode={hasLocalPasscode} onPasscodeSet={() => { setHasLocalPasscode(true); setIsLocked(true) }} onPasscodeRemoved={() => setHasLocalPasscode(false)} openEngine={path === '#/connect'} />
 }
