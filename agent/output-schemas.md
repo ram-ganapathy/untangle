@@ -28,6 +28,15 @@ Input: raw dump text.
 }
 ```
 
+For every replay fragment, `text` restates the user's own thought or observation in
+second person. Never put the engine's correction, reassurance, or judgement in
+`text`; put that calm correction in `note` instead. This is especially important for
+`added` fragments: the user must be able to release the claim they actually made.
+
+Wrong: `{ "text": "You do not know what your VP's silence means", "layer": "added" }`
+
+Right: `{ "text": "Your VP's silence means he is unimpressed", "layer": "added", "pattern": "mind-reading", "note": "Silence is observable; his judgment is not." }`
+
 ## Operation: decompose (projection)
 ```json
 {
