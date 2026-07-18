@@ -175,7 +175,7 @@ h2 { margin: 0; color: var(--heading); font: 500 24px/1.2 var(--display); }
 <header>
   <p class="eyebrow">Build evidence · OpenAI Build Week 2026</p>
   <h1>One session. The whole build.</h1>
-  <p class="lede">Every commit in Untangle's history was authored by <strong>Codex</strong> inside a single shared session — scaffold to submission, milestones M0 through M9. The human supplied direction, bug reports, and acceptance decisions; the code came from the agent.</p>
+  <p class="lede">Every commit in Untangle's history was authored by <strong>Codex</strong> inside a single shared session — scaffold to submission, milestones M0 through M16. The human supplied direction, bug reports, and acceptance decisions; the code came from the agent.</p>
   <div class="session-meta">
     <span>session <b>019f70ee-a3c8-7af0-aa3b-345e2af96adf</b></span>
     <span>codex-tui <b>0.144.4</b></span>
@@ -185,12 +185,12 @@ h2 { margin: 0; color: var(--heading); font: 500 24px/1.2 var(--display); }
 </header>
 
 <section class="stat-band" aria-label="Session totals">
-  <div class="stat"><b>59</b><span>human prompts</span></div>
-  <div class="stat"><b>25</b><span>commits, all by Codex</span></div>
-  <div class="stat"><b>51</b><span>patches applied</span></div>
-  <div class="stat"><b>230</b><span>tool invocations</span></div>
-  <div class="stat"><b>29.4<small>M</small></b><span>tokens · 124.7k output</span></div>
-  <div class="stat"><b>7<small>h</small> 20<small>m</small></b><span>active build time</span></div>
+  <div class="stat"><b>91</b><span>human prompts</span></div>
+  <div class="stat"><b>39</b><span>commits, all by Codex</span></div>
+  <div class="stat"><b>79</b><span>patches applied</span></div>
+  <div class="stat"><b>335</b><span>tool invocations</span></div>
+  <div class="stat"><b>47.9<small>M</small></b><span>tokens · 192.5k output</span></div>
+  <div class="stat"><b>11<small>h</small> 50<small>m</small></b><span>active build time</span></div>
 </section>
 
 <div class="timeline-head">
@@ -256,12 +256,36 @@ h2 { margin: 0; color: var(--heading); font: 500 24px/1.2 var(--display); }
     <li class="docs"><span class="t">14:29</span><span class="dot"></span><span class="body"><code class="hash">9fc2518</code><span class="msg">add roadmap and project license</span></span></li>
     <li class="docs"><span class="t">14:29</span><span class="dot"></span><span class="body"><code class="hash">8314a3e</code><span class="msg">add architecture diagram</span></span></li>
   </ul>
+  <p class="pause">— afternoon pause · 14:29 → 19:02 · Firebase deploy and live field testing —</p>
+</section>
+
+<section class="act">
+  <h3 class="act-title">Act III — the cosmos <small>Jul 18 · 19:02 – 23:31</small></h3>
+  <ul class="rows">
+    <li class="event"><span class="t">19:02</span><span class="dot"></span>
+      <div class="event-card"><em>Session resumed</em>
+      <p>AGENTS.md gains seven new milestones (M10–M16): engine support for all four spiral types, the unblocked return flow, memory vials, the Groove, the Scales, the night sky, and original-entry access. Executed one at a time, verified between — same session, same rhythm.</p></div></li>
+    <li class="docs"><span class="t">19:04</span><span class="dot"></span><span class="body"><code class="hash">138d193</code><span class="msg">add build session evidence</span></span></li>
+    <li class="fix"><span class="t">20:44</span><span class="dot"></span><span class="body"><code class="hash">9665385</code><span class="msg">gate access immediately after setting passcode</span></span></li>
+    <li class="fix"><span class="t">21:32</span><span class="dot"></span><span class="body"><code class="hash">66822c7</code><span class="msg">mark active fragments when they return</span></span></li>
+    <li class="fix"><span class="t">21:44</span><span class="dot"></span><span class="body"><code class="hash">bd0d11b</code><span class="msg">resume mobile speech recognition sessions</span></span></li>
+    <li class="fix"><span class="t">22:09</span><span class="dot"></span><span class="body"><code class="hash">6d54559</code><span class="msg">support rumination and deliberation decompositions</span><span class="tag">M10</span></span></li>
+    <li class="fix"><span class="t">22:18</span><span class="dot"></span><span class="body"><code class="hash">2bcc26e</code><span class="msg">keep return flow available for open spirals</span><span class="tag">M11</span></span></li>
+    <li class="feat"><span class="t">22:28</span><span class="dot"></span><span class="body"><code class="hash">72bf9d9</code><span class="msg">render spiral library as memory vials</span><span class="tag">M12</span></span></li>
+    <li class="feat"><span class="t">22:39</span><span class="dot"></span><span class="body"><code class="hash">dec8ad5</code><span class="msg">add rumination groove screen</span><span class="tag">M13</span></span></li>
+    <li class="feat"><span class="t">22:46</span><span class="dot"></span><span class="body"><code class="hash">043bf02</code><span class="msg">add deliberation scales screen</span><span class="tag">M14</span></span></li>
+    <li class="feat"><span class="t">22:56</span><span class="dot"></span><span class="body"><code class="hash">ed7c0ab</code><span class="msg">add contemplative thought sky</span><span class="tag">M15</span></span></li>
+    <li class="fix"><span class="t">23:01</span><span class="dot"></span><span class="body"><code class="hash">6dfa1ba</code><span class="msg">prevent vial title collisions</span></span></li>
+    <li class="feat"><span class="t">23:06</span><span class="dot"></span><span class="body"><code class="hash">33b4fef</code><span class="msg">surface original spiral entries</span><span class="tag">M16</span></span></li>
+    <li class="docs"><span class="t">23:19</span><span class="dot"></span><span class="body"><code class="hash">7278665</code><span class="msg">move spiral erase control off home shelf</span></span></li>
+    <li class="feat"><span class="t">23:31</span><span class="dot"></span><span class="body"><code class="hash">72d167d</code><span class="msg">distinguish care spirals in library</span></span></li>
+  </ul>
 </section>
 
 <footer class="closing">
   <h2>Division of labor</h2>
-  <p>Concept and reference prototypes were designed before this session. <strong>Every line of implementation was authored by Codex inside it.</strong> The human's 59 prompts contain no pasted code — they are direction, bug reports found by testing the product, and acceptance decisions. In-app intelligence runs on <strong>gpt-5.6-luna</strong> through the OpenAI Responses API, with a keyless demo fallback so the full experience works without a key.</p>
-  <p class="verify">Verifiable against the shared session file<br>rollout-2026-07-17T22-05-15-019f70ee-a3c8-7af0-aa3b-345e2af96adf.jsonl<br>28.6M of 29.3M input tokens were served from prompt cache.</p>
+  <p>Concept and reference prototypes were designed before this session. <strong>Every line of implementation was authored by Codex inside it.</strong> The human's 91 prompts contain no pasted code — they are direction, bug reports found by testing the product, and acceptance decisions. In-app intelligence runs on <strong>gpt-5.6-luna</strong> through the OpenAI Responses API, with a keyless demo fallback so the full experience works without a key.</p>
+  <p class="verify">Verifiable against the shared session file<br>rollout-2026-07-17T22-05-15-019f70ee-a3c8-7af0-aa3b-345e2af96adf.jsonl<br>46.2M of 47.7M input tokens were served from prompt cache.</p>
 </footer>
 
 </div>
