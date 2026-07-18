@@ -145,6 +145,7 @@ export default function Basin({ spiral }) {
           <span className="chip basin-chip">DIAGNOSIS · REPLAY</span>
           <h1>{spiral.title}</h1>
           {spiral.engineFallback && <p className="engine-banner">Couldn't reach the engine — showing an example instead.</p>}
+          {spiral.demoEngine && <a className="demo-engine-chip" href="#/connect">demo example — connect the engine to map your own words</a>}
           {spiral.shift && <p className="map-shift">{spiral.shift}</p>}
           <p className="subtle">Your memory, held still. Lift each wisp to see what belongs in the record.</p>
           <EraseSpiral spiralId={spiral.id} />

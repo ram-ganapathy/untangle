@@ -41,6 +41,7 @@ export async function analyzeAndPersistSpiral(spiral, entries) {
     title: diagnosisResult.headline || spiral.title,
     state: 'open',
     engineFallback: Boolean(diagnosisResult.__untangleFallback || decomposition.__untangleFallback),
+    demoEngine: Boolean(diagnosisResult.__untangleDemo || decomposition.__untangleDemo),
     ...closingCard(decomposition),
   })
   // A decomposition of several entries belongs to its latest dump for return-visit diffs.

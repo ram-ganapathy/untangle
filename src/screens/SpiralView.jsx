@@ -64,6 +64,7 @@ export default function SpiralView({ spiralId }) {
         <section className="map-stage">
         <span className="chip">{spiral.diagnosis ? `DIAGNOSIS · ${spiral.diagnosis.toUpperCase()}` : 'WAITING TO UNTANGLE'}</span>
         <h1>{spiral.title}</h1>
+        {spiral.demoEngine && <a className="demo-engine-chip" href="#/connect">demo example — connect the engine to map your own words</a>}
         <p className="subtle">Your thought is held here. Its map is ready to be made.</p>
         {entries.map((entry) => <blockquote className="entry-preview" key={entry.id}>{entry.rawText}</blockquote>)}
         <button className="button primary" type="button" onClick={untangle} disabled={!entries.length || isUntangling}>{isUntangling ? 'Untangling…' : 'Untangle it'}</button>

@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL shown by Vite. To use the live analysis engine, set `VITE_OPENAI_API_KEY` in a local `.env` file or set `localStorage['untangle.apiKey']` in the browser. Without a key, the app uses its built-in demo data so the full interaction can still be explored.
+Open the local URL shown by Vite. To use the live analysis engine, open the engine control on the Home screen and paste an OpenAI API key. It stays in that browser and is sent only to OpenAI. Without a key, the app uses its built-in demo data so the full interaction can still be explored.
 
 Useful commands:
 

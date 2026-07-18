@@ -11,6 +11,7 @@ import UnlockScreen from './screens/UnlockScreen'
 export default function App() {
   const [path, setPath] = useState(window.location.hash || '#/')
   const [isLocked, setIsLocked] = useState(() => hasPasscode())
+  const [hasLocalPasscode, setHasLocalPasscode] = useState(() => hasPasscode())
 
   useEffect(() => {
     const onHashChange = () => setPath(window.location.hash || '#/')
@@ -22,11 +23,11 @@ export default function App() {
     db.open().catch((error) => console.error('Unable to open Untangle storage.', error))
   }, [])
 
-  if (isLocked) return <UnlockScreen onUnlock={() => setIsLocked(false)} />
+  if (isLocked) return <UnlockScreen onUnlock={() => setIsLocked(false)} onReset={() => { setIsLocked(false); setHasLocalPasscode(false); window.location.hash = '#/' }} />
   if (path === '#/new') return <NewSpiral />
   if (path.startsWith('#/new/')) return <NewSpiral spiralId={path.slice('#/new/'.length)} />
   if (path === '#/agent-test') return <AgentTest />
   if (path.startsWith('#/care/')) return <CareScreen />
   if (path.startsWith('#/spiral/')) return <SpiralView spiralId={path.slice('#/spiral/'.length)} />
-  return <Home onPasscodeSet={() => setIsLocked(false)} />
+  return <Home hasLocalPasscode={hasLocalPasscode} onPasscodeSet={() => { setIsLocked(false); setHasLocalPasscode(true) }} onPasscodeRemoved={() => setHasLocalPasscode(false)} openEngine={path === '#/connect'} />
 }

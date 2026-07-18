@@ -32,3 +32,16 @@ export async function verifyPasscode(passcode) {
     return false
   }
 }
+
+export function removePasscode() {
+  window.localStorage.removeItem(storageKey)
+}
+
+export async function eraseSavedSpiralsAndPasscode(db) {
+  await db.transaction('rw', db.spirals, db.entries, db.fragments, async () => {
+    await db.spirals.clear()
+    await db.entries.clear()
+    await db.fragments.clear()
+  })
+  removePasscode()
+}

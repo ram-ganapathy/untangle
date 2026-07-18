@@ -32,6 +32,7 @@ async function request(input, key) {
 function demoFallback(operation, payload, didFail = false) {
   const result = demoAgentFallback(operation, payload)
   if (didFail) Object.defineProperty(result, '__untangleFallback', { value: true, enumerable: false })
+  else Object.defineProperty(result, '__untangleDemo', { value: true, enumerable: false })
   return result
 }
 

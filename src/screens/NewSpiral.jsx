@@ -45,6 +45,7 @@ export default function NewSpiral({ spiralId }) {
     await updateSpiral(spiralId, {
       state: 'open',
       engineFallback: Boolean(diff.__untangleFallback),
+      demoEngine: Boolean(diff.__untangleDemo),
       shift: diff.shift ?? null,
     })
     return { id: spiralId, safety: false }
