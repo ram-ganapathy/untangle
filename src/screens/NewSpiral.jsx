@@ -1,10 +1,25 @@
 import { useState } from 'react'
-import { createSpiralWithEntry } from '../db/spirals'
+import { callAgent } from '../agent/callAgent'
+import { createFragments } from '../db/fragments'
+import { createSpiralWithEntry, updateSpiral } from '../db/spirals'
 import { exampleEntry, exampleSpiral } from '../demo/demoData'
 import { useSpeech } from '../stt/useSpeech'
 
-function titleFrom(text) {
-  return text.trim().split(/\s+/).slice(0, 6).join(' ')
+function agentFragments(result, spiralId, entryId) {
+  if (Array.isArray(result.fragments)) {
+    return result.fragments.map(({ text, layer, pattern, note }) => ({
+      spiralId, entryId, text, layer, pattern, note,
+    }))
+  }
+  return (result.nodes ?? []).map(({ text, kind, probability, evidence, pattern }) => ({
+    spiralId, entryId, text, kind, probability, evidence, pattern,
+  }))
+}
+
+function closingCard(result) {
+  if (result.keep?.text) return { closingText: result.keep.text, closingType: 'keep' }
+  if (result.anchor?.text) return { closingText: result.anchor.text, closingType: 'anchor' }
+  return {}
 }
 
 export default function NewSpiral() {
@@ -21,7 +36,19 @@ export default function NewSpiral() {
     setIsSaving(true)
     setError('')
     try {
-      const { spiral } = await createSpiralWithEntry({ spiral: spiralValues, entry: entryValues })
+      const { spiral, entry } = await createSpiralWithEntry({ spiral: spiralValues, entry: entryValues })
+      const diagnosisResult = await callAgent('diagnose', { rawText: entry.rawText })
+      const diagnosis = diagnosisResult.diagnosis ?? 'replay'
+      const decomposition = await callAgent('decompose', { rawText: entry.rawText, diagnosis })
+
+      // The schema has no closing-card field, so keep/anchor copy lives on its spiral.
+      await updateSpiral(spiral.id, {
+        diagnosis,
+        title: diagnosisResult.headline || spiral.title,
+        ...closingCard(decomposition),
+      })
+      const fragments = agentFragments(decomposition, spiral.id, entry.id)
+      if (fragments.length) await createFragments(fragments)
       window.location.hash = `#/spiral/${spiral.id}`
     } catch (saveError) {
       console.error('Unable to save spiral.', saveError)
@@ -35,8 +62,7 @@ export default function NewSpiral() {
     const rawText = text.trim()
     if (!rawText || isSaving) return
     speech.stop()
-    // M3 replaces this pending value with the agent diagnosis.
-    saveSpiral({ title: titleFrom(rawText), diagnosis: null }, { rawText, source })
+    saveSpiral({ title: 'Untangling…', diagnosis: null }, { rawText, source })
   }
 
   function showExample() {

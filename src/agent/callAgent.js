@@ -29,12 +29,14 @@ async function request(input, key) {
 }
 
 export async function callAgent(operation, payload) {
-  const key = apiKey().trim()
-  if (!key) return demoAgentFallback(operation, payload)
   try {
+    const key = apiKey().trim()
+    if (!key) return demoAgentFallback(operation, payload)
     return JSON.parse(stripFences(await request(buildAgentInput(operation, payload), key)))
   } catch (firstError) {
     try {
+      const key = apiKey().trim()
+      if (!key) return demoAgentFallback(operation, payload)
       return JSON.parse(stripFences(await request(buildAgentInput(operation, payload, true), key)))
     } catch (secondError) {
       console.error('Untangle agent failed; using demo fallback.', secondError, firstError)
