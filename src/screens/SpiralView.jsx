@@ -36,7 +36,7 @@ export default function SpiralView({ spiralId }) {
 
   if (!spiral) return <main className="page"><div className="shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><h1>This spiral isn’t here.</h1><p className="subtle">It may have been removed, or this link is incomplete.</p><a className="button primary" href="#/">Back to your library</a></section></div></main>
 
-  if (spiral.safety) return <CareScreen />
+  if (spiral.safety) return <CareScreen spiralId={spiral.id} />
 
   if (spiral.diagnosis === 'replay') return <Basin spiral={spiral} />
   if (spiral.diagnosis === 'rumination') return <Groove spiral={spiral} />

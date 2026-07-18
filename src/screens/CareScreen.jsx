@@ -1,6 +1,7 @@
 import { safetyResult } from '../agent/safety'
+import EraseSpiral from './EraseSpiral'
 
-export default function CareScreen() {
+export default function CareScreen({ spiralId }) {
   return (
     <main className="page care-page">
       <div className="shell">
@@ -14,6 +15,7 @@ export default function CareScreen() {
           <p>Elsewhere, contact local emergency services or find a verified local helpline at <a href="https://findahelpline.com/" target="_blank" rel="noreferrer">findahelpline.com</a>.</p>
         </div>
         <a className="button ghost" href="#/">Return to your library</a>
+        {spiralId && <EraseSpiral spiralId={spiralId} />}
         </section>
       </div>
     </main>
