@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { callAgent } from '../agent/callAgent'
 import { analyzeAndPersistSpiral, agentFragments } from '../agent/persistAnalysis'
 import { createEntry, listEntries } from '../db/entries'
-import { createFragments, listFragments, returnFragment } from '../db/fragments'
+import { createFragments, listFragments, returnFragment, updateFragment } from '../db/fragments'
 import { createSpiralWithEntry, getSpiral, updateSpiral } from '../db/spirals'
 import { exampleEntry, exampleSpiral } from '../demo/demoData'
 import { useSpeech } from '../stt/useSpeech'
@@ -40,8 +40,16 @@ export default function NewSpiral({ spiralId }) {
     }
     const newFragments = agentFragments({ new_fragments: diff.new_fragments }, spiralId, entry.id)
     if (newFragments.length) await createFragments(newFragments)
-    const returnable = new Set(existingFragments.filter((fragment) => ['settled', 'released'].includes(fragment.status)).map((fragment) => fragment.id))
-    await Promise.all((diff.returning ?? []).filter(({ existingId }) => returnable.has(existingId)).map(({ existingId }) => returnFragment(existingId)))
+    const fragmentsById = new Map(existingFragments.map((fragment) => [fragment.id, fragment]))
+    await Promise.all((diff.returning ?? []).flatMap(({ existingId }) => {
+      const fragment = fragmentsById.get(existingId)
+      if (!fragment) return []
+      if (['settled', 'released'].includes(fragment.status)) return [returnFragment(existingId)]
+      if (['swirling', 'lifted'].includes(fragment.status)) {
+        return [updateFragment(existingId, { returnCount: (fragment.returnCount ?? 0) + 1 })]
+      }
+      return []
+    }))
     await updateSpiral(spiralId, {
       state: 'open',
       engineFallback: Boolean(diff.__untangleFallback),
