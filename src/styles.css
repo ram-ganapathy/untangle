@@ -69,20 +69,24 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .lock-actions .button { margin-top: 18px; }
 .lock-choice-actions { display: grid; gap: 10px; margin-top: 22px; }
 .lock-choice-actions .button { width: fit-content; margin-top: 0; }
-.modal-cancel, .forgot-passcode, .engine-disconnect { border: 0; padding: 0; background: transparent; color: #9cb9d3; cursor: pointer; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.modal-cancel, .forgot-passcode { border: 0; padding: 0; background: transparent; color: #9cb9d3; cursor: pointer; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .forgot-passcode { display: block; margin-top: 20px; }
 .forgot-form { margin-top: 22px; }
 .engine-status { display: flex; align-items: center; gap: 7px; margin-top: 18px; border: 0; padding: 0; background: transparent; color: #9cb9d3; cursor: pointer; font: 11px 'JetBrains Mono', monospace; letter-spacing: .03em; }
 .engine-status svg, .engine-panel svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.65; }
 .engine-panel { max-width: 430px; margin-top: 14px; border: 1px solid #334a64; border-radius: 14px; padding: 16px; background: rgba(19, 28, 42, .9); }
-.engine-panel > div { display: flex; align-items: center; gap: 8px; color: #c6dced; font-size: 13px; }
+.engine-panel-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #c6dced; font-size: 13px; }
+.engine-panel-header > div { display: flex; align-items: center; gap: 8px; }
+.engine-close { width: 30px; height: 30px; }
 .engine-panel form { margin-top: 14px; }
 .engine-panel label { display: block; margin-bottom: 8px; color: #c6cbd9; font-size: 13px; }
 .engine-key-input { display: block; width: 100%; border: 1px solid #3d4763; border-radius: 10px; padding: 10px 12px; background: #111725; color: #e8e6df; outline: none; }
 .engine-key-input:focus { border-color: #8fb6d9; }
 .engine-panel p { margin: 10px 0 0; color: #8b93a7; font-size: 12px; line-height: 1.45; }
 .engine-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.engine-actions .button { margin-top: 16px; }
+.engine-action-icon { margin-top: 16px; }
+.engine-connect { border-color: #8fb6d9; background: #8fb6d9; color: #0e1420; }
+.engine-connect:hover { border-color: #b7d5eb; background: #b7d5eb; color: #0e1420; }
 .demo-engine-chip { display: inline-block; margin: 12px 0 0; border: 1px solid #405a74; border-radius: 999px; padding: 5px 9px; color: #aecaE1; font-size: 11px; line-height: 1.35; text-decoration: none; }
 .passcode-input { display: block; width: 100%; max-width: 220px; border: 1px solid #3d4763; border-radius: 10px; padding: 11px 12px; background: #111725; color: #e8e6df; font: 500 18px 'JetBrains Mono', monospace; letter-spacing: .2em; outline: none; }
 .passcode-input:focus { border-color: #8fb6d9; }

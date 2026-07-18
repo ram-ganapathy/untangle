@@ -16,6 +16,18 @@ function EngineIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h8M9 3v4m6-4v4M7 9h10v9H7zM10 13h4M5 13H3m18 0h-2M8 18v3m8-3v3" /></svg>
 }
 
+function PlugIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v6m8-6v6M6 9h12v3a6 6 0 0 1-6 6v3m0 0h-3m3 0h3" /></svg>
+}
+
+function UnplugIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M8 3v6m8-6v3M6 9h8v3a6 6 0 0 1-2 4.6M12 21h-3m3 0h3" /></svg>
+}
+
+function CloseIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
+}
+
 export default function Home({ hasLocalPasscode, onPasscodeSet, onPasscodeRemoved, openEngine }) {
   const [spirals, setSpirals] = useState([])
   const [lockMode, setLockMode] = useState(null)
@@ -101,8 +113,8 @@ export default function Home({ hasLocalPasscode, onPasscodeSet, onPasscodeRemove
           <p className="eyebrow">YOUR LIBRARY</p>
           {spirals.length === 0 ? <><h1>Nothing is waiting to be sorted.</h1><p className="subtle">Something looping? Pour it in.</p></> : <><h1>Thoughts you have held still.</h1><p className="subtle">Return to any map exactly where you left it.</p></>}
           <a className="button primary" href="#/new">Start a spiral</a>
-          <button className="engine-status" type="button" onClick={() => setEngineOpen(true)}><EngineIcon /><span>engine: {engineLive ? 'live' : 'demo examples'}</span></button>
-          {engineOpen && <section className="engine-panel"><div><EngineIcon /><strong>{engineLive ? 'Engine connected' : 'Connect the engine'}</strong></div>{engineLive ? <button className="engine-disconnect" type="button" onClick={disconnect}>Disconnect engine</button> : <form onSubmit={connectEngine}><label htmlFor="engine-key">OpenAI API key</label><input id="engine-key" className="engine-key-input" type="password" autoComplete="off" value={engineKey} onChange={(event) => { setEngineKey(event.target.value); setEngineError('') }} /><p>Stays in this browser only; sent only to OpenAI.</p><div className="engine-actions"><button className="button primary" type="submit" disabled={isSavingEngine}>{isSavingEngine ? 'Checking…' : 'Save engine'}</button><button className="button ghost" type="button" onClick={() => setEngineOpen(false)}>Cancel</button></div>{engineError && <p className="form-error">{engineError}</p>}</form>}</section>}
+          <button className="engine-status" type="button" onClick={() => setEngineOpen((open) => !open)} aria-expanded={engineOpen}><EngineIcon /><span>engine: {engineLive ? 'live' : 'demo examples'}</span></button>
+          {engineOpen && <section className="engine-panel"><div className="engine-panel-header"><div><EngineIcon /><strong>{engineLive ? 'Engine connected' : 'Connect the engine'}</strong></div><button className="privacy-icon-button engine-close" type="button" onClick={() => setEngineOpen(false)} aria-label="Close engine panel" title="Close engine panel"><CloseIcon /></button></div>{engineLive ? <button className="privacy-icon-button engine-action-icon" type="button" onClick={disconnect} aria-label="Disconnect engine" title="Disconnect engine"><UnplugIcon /></button> : <form onSubmit={connectEngine}><label htmlFor="engine-key">OpenAI API key</label><input id="engine-key" className="engine-key-input" type="password" autoComplete="off" value={engineKey} onChange={(event) => { setEngineKey(event.target.value); setEngineError('') }} /><p>Stays in this browser only; sent only to OpenAI.</p><div className="engine-actions"><button className="privacy-icon-button engine-action-icon engine-connect" type="submit" disabled={isSavingEngine} aria-label={isSavingEngine ? 'Checking engine key' : 'Connect engine'} title={isSavingEngine ? 'Checking engine key' : 'Connect engine'}><PlugIcon /></button><button className="privacy-icon-button engine-action-icon" type="button" onClick={() => setEngineOpen(false)} aria-label="Cancel" title="Cancel"><CloseIcon /></button></div>{engineError && <p className="form-error">{engineError}</p>}</form>}</section>}
         </section>
         {spirals.length > 0 && <section className="spiral-library">{spirals.map((spiral) => <div className="spiral-row" key={spiral.id}><a className="spiral-row-link" href={`#/spiral/${spiral.id}`}><span><strong>{spiral.title}</strong><small>{touchedAt(spiral.updatedAt)}</small></span><span className="library-meta"><em>{spiral.diagnosis || 'waiting'}</em><b>{spiral.state}</b></span></a><EraseSpiral spiralId={spiral.id} onErased={removeSpiral} /></div>)}</section>}
       </div>
