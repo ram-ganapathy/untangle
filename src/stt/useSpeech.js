@@ -5,21 +5,41 @@ function speechRecognitionConstructor() {
   return window.SpeechRecognition || window.webkitSpeechRecognition || null
 }
 
+const terminalErrors = new Set(['not-allowed', 'service-not-allowed', 'audio-capture', 'language-not-supported'])
+
 export function useSpeech(onFinalTranscript) {
   const recognitionRef = useRef(null)
+  const restartTimerRef = useRef(null)
+  const shouldListenRef = useRef(false)
   const onFinalRef = useRef(onFinalTranscript)
   const [isListening, setIsListening] = useState(false)
   const [interimTranscript, setInterimTranscript] = useState('')
   const isSupported = Boolean(speechRecognitionConstructor())
 
   useEffect(() => { onFinalRef.current = onFinalTranscript }, [onFinalTranscript])
-  useEffect(() => () => recognitionRef.current?.stop(), [])
+  useEffect(() => () => {
+    shouldListenRef.current = false
+    if (restartTimerRef.current) window.clearTimeout(restartTimerRef.current)
+    recognitionRef.current?.stop()
+  }, [])
 
-  function stop() { recognitionRef.current?.stop() }
+  function clearRestart() {
+    if (restartTimerRef.current) window.clearTimeout(restartTimerRef.current)
+    restartTimerRef.current = null
+  }
 
-  function start() {
+  function scheduleRestart() {
+    clearRestart()
+    // Android Chrome can end a continuous service after a pause; wait for its teardown before restarting.
+    restartTimerRef.current = window.setTimeout(() => {
+      restartTimerRef.current = null
+      if (shouldListenRef.current) beginRecognition()
+    }, 250)
+  }
+
+  function beginRecognition() {
     const SpeechRecognition = speechRecognitionConstructor()
-    if (!SpeechRecognition || isListening) return
+    if (!SpeechRecognition || !shouldListenRef.current || recognitionRef.current) return
     const recognition = new SpeechRecognition()
     recognition.continuous = true
     recognition.interimResults = true
@@ -35,11 +55,39 @@ export function useSpeech(onFinalTranscript) {
       if (finalText.trim()) onFinalRef.current?.(finalText.trim())
       setInterimTranscript(interimText)
     }
-    recognition.onend = () => { setIsListening(false); setInterimTranscript('') }
-    recognition.onerror = () => { setIsListening(false); setInterimTranscript('') }
+    recognition.onend = () => {
+      if (recognitionRef.current === recognition) recognitionRef.current = null
+      setInterimTranscript('')
+      if (shouldListenRef.current) scheduleRestart()
+      else setIsListening(false)
+    }
+    recognition.onerror = (event) => {
+      if (terminalErrors.has(event.error)) shouldListenRef.current = false
+    }
     recognitionRef.current = recognition
-    recognition.start()
-    setIsListening(true)
+    try {
+      recognition.start()
+      setIsListening(true)
+    } catch (error) {
+      console.error('Unable to start speech recognition.', error)
+      recognitionRef.current = null
+      if (shouldListenRef.current) scheduleRestart()
+      else setIsListening(false)
+    }
+  }
+
+  function stop() {
+    shouldListenRef.current = false
+    clearRestart()
+    recognitionRef.current?.stop()
+    setIsListening(false)
+    setInterimTranscript('')
+  }
+
+  function start() {
+    if (!speechRecognitionConstructor() || shouldListenRef.current) return
+    shouldListenRef.current = true
+    beginRecognition()
   }
 
   return { isSupported, isListening, interimTranscript, start, stop }
