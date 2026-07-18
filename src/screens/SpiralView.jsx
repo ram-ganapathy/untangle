@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Basin from './Basin'
 import { listEntries } from '../db/entries'
 import { getSpiral } from '../db/spirals'
 
@@ -18,6 +19,8 @@ export default function SpiralView({ spiralId }) {
   if (!spiral) {
     return <main className="page shell"><header className="brand"><a href="#/">Untangle</a><span>spiral map</span></header><section className="map-stage"><p className="subtle">Finding your spiral…</p></section></main>
   }
+
+  if (spiral.diagnosis === 'replay') return <Basin spiral={spiral} />
 
   return (
     <main className="page shell">
